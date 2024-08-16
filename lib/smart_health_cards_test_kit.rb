@@ -1,10 +1,10 @@
-require_relative 'inferno_template/patient_group'
+require_relative 'smart_health_cards/file_download_group'
 
-module InfernoTemplate
+module SmartHealthCards
   class Suite < Inferno::TestSuite
-    id :inferno_template_test_suite
-    title 'Inferno Template Test Suite'
-    description 'Inferno template test suite.'
+    id :smart_health_cards_test_suite
+    title 'SMART Health Cards'
+    description 'Inferno SMART Health Cards test suite.'
 
     # These inputs will be available to all tests in this suite
     input :url,
@@ -31,28 +31,8 @@ module InfernoTemplate
       end
     end
 
-    # Tests and TestGroups can be defined inline
-    group do
-      id :capability_statement
-      title 'Capability Statement'
-      description 'Verify that the server has a CapabilityStatement'
-
-      test do
-        id :capability_statement_read
-        title 'Read CapabilityStatement'
-        description 'Read CapabilityStatement from /metadata endpoint'
-
-        run do
-          fhir_get_capability_statement
-
-          assert_response_status(200)
-          assert_resource_type(:capability_statement)
-        end
-      end
-    end
-
     # Tests and TestGroups can be written in separate files and then included
     # using their id
-    group from: :patient_group
+    group from: :shc_file_download_group
   end
 end

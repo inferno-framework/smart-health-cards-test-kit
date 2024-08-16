@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = 'inferno_template'
+  spec.name          = 'smart_health_cards_test_kit'
   spec.version       = '0.0.1'
   spec.authors       = ["Inferno Template"]
   # spec.email         = ['TODO']
