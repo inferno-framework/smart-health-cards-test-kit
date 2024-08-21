@@ -7,7 +7,7 @@ module SmartHealthCards
     input :file_download_url
 
     test do
-      id :download_health_card
+      id :health_card_download_test
       title 'Health card can be downloaded'
       description 'The health card can be downloaded and is a valid JSON object'
       makes_request :shc_file_download
