@@ -89,7 +89,7 @@ module SmartHealthCards
     end
 
     test from: :shc_payload_verification do
-      id 'vci-file-07'
+      id 'shc-file-07'
     end
       
 
