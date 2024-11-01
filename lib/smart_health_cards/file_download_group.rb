@@ -12,7 +12,9 @@ module SmartHealthCards
       description 'The health card can be downloaded and is a valid JSON object'
       makes_request :shc_file_download
 
+
       run do
+        binding.pry
         get(file_download_url, name: :shc_file_download)
 
         assert_response_status(200)
