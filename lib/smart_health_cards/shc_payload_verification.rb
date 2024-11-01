@@ -1,6 +1,6 @@
 module SmartHealthCards
   class SHCPayloadVerification < Inferno::Test
-    id :shc_payload_verification
+    id :shc_payload_verification_test
     title 'Verify the correct SHC payload'
     input :credential_strings
 
