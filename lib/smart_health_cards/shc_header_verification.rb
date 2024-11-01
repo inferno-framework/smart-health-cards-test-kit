@@ -1,4 +1,5 @@
 require 'health_cards'
+
 module SmartHealthCards
   class SHCHeaderVerification < Inferno::Test
     id :shc_header_verification_test
@@ -28,6 +29,7 @@ module SmartHealthCards
       rescue StandardError => e
         assert false, "Error decoding credential: #{e.message}"
       end
+
       output headers: header_array
     end
   end
