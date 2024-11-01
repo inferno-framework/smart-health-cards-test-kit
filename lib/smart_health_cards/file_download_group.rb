@@ -88,9 +88,7 @@ module SmartHealthCards
       end
     end
 
-    test from: :shc_payload_verification do
-      id 'shc-file-07'
-    end
+    test from: :shc_payload_verification_test 
       
 
     
