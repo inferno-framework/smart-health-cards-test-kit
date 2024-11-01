@@ -64,8 +64,6 @@ module SmartHealthCards
       end
     end
 
-    #TODO: test that response is a JSON object
-
     test do
       id :verifiable_credential_test
       title 'Response contains an array of Verifiable Credential strings'
@@ -76,7 +74,6 @@ module SmartHealthCards
         skip_if request.status != 200, 'Health card not successfully downloaded'
 
         body = JSON.parse(response[:body])
-        #puts body
         assert body.include?('verifiableCredential'),
                "Health card does not contain 'verifiableCredential' field"
 

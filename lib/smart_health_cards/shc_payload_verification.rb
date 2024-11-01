@@ -2,11 +2,10 @@ module SmartHealthCards
   class SHCPayloadVerification < Inferno::Test
     id :shc_payload_verification
     title 'Verify the correct SHC payload'
-    uses_request :shc_file_download
     input :credential_strings
 
     run do
-      skip_if request.status != 200, 'Health card not successfully downloaded'
+      skip_if credential_strings.blank?, 'No Verifiable Credentials received'
 
       credential_strings.split(',').each do |credential|
         raw_payload = HealthCards::JWS.from_jws(credential).payload
@@ -21,7 +20,7 @@ module SmartHealthCards
 
         assert decompressed_payload.length.positive?, 'Payload compression error. Unable to inflate payload.'
 
-        raw_payload_length = raw_payload.length #TODO confirm this is the correct length to use
+        raw_payload_length = raw_payload.length
         decompressed_payload_length = decompressed_payload.length
 
         warning do
