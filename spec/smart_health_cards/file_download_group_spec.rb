@@ -14,7 +14,6 @@ RSpec.describe SmartHealthCards::FileDownloadGroup do
     inputs.each do |name, value|
       session_data_repo.save(test_session_id: test_session.id, name: name, value: value, type: 'text')
     end
-#    binding.pry
     Inferno::TestRunner.new(test_session: test_session, test_run: test_run).run(runnable)
   end
 
@@ -26,8 +25,6 @@ RSpec.describe SmartHealthCards::FileDownloadGroup do
       stubbed_request =
         stub_request(:get, url)
           .to_return(status: 200, body: { abc: 'def' }.to_json)
-
-          #binding.pry
 
       result = run(test, { file_download_url: url, url: url })
 
