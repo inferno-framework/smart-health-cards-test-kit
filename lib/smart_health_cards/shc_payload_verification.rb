@@ -3,13 +3,13 @@ module SmartHealthCards
     id :shc_payload_verification_test
     title 'Verify the correct SHC payload'
     input :credential_strings
+    output :decompressed_payloads
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
-      puts 'credential_strings = ' + credential_strings
+      decompressed_payload_array = []
 
       credential_strings.split(',').each do |credential|
-        puts 'credential = ' + credential.to_s
         raw_payload = HealthCards::JWS.from_jws(credential).payload
         assert raw_payload&.length&.positive?, 'No payload found'
 
@@ -19,6 +19,8 @@ module SmartHealthCards
         rescue Zlib::DataError
           assert false, 'Payload compression error. Unable to inflate payload.'
         end
+
+        decompressed_payload_array.concat([decompressed_payload])
 
         assert decompressed_payload.length.positive?, 'Payload compression error. Unable to inflate payload.'
 
@@ -109,6 +111,7 @@ module SmartHealthCards
           end
         end
       end
+      output decompressed_payloads: decompressed_payload_array.join(',')
     end
   end
 end
