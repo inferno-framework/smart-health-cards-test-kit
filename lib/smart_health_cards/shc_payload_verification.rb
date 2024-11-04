@@ -6,8 +6,10 @@ module SmartHealthCards
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
+      puts 'credential_strings = ' + credential_strings
 
       credential_strings.split(',').each do |credential|
+        puts 'credential = ' + credential.to_s
         raw_payload = HealthCards::JWS.from_jws(credential).payload
         assert raw_payload&.length&.positive?, 'No payload found'
 
