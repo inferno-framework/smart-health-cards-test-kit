@@ -20,7 +20,7 @@ module SmartHealthCards
           assert false, 'Payload compression error. Unable to inflate payload.'
         end
 
-        decompressed_payload_array.concat([decompressed_payload])
+        decompressed_payload_array.append(decompressed_payload)
 
         assert decompressed_payload.length.positive?, 'Payload compression error. Unable to inflate payload.'
 
@@ -111,7 +111,8 @@ module SmartHealthCards
           end
         end
       end
-      output decompressed_payloads: decompressed_payload_array.join(',')
+      #output decompressed_payloads: decompressed_payload_array.join(',')
+      output decompressed_payloads: decompressed_payload_array
     end
   end
 end
