@@ -33,7 +33,7 @@ RSpec.describe SmartHealthCards::SHCHeaderVerification do
       expect(result.result).to eq('pass')
     end
 
-    it 'raises error if the vc is not a valid jws, and therefore does not contain a valid header' do
+    it 'raises an error if the vc is not a valid jws, and therefore does not contain a valid header' do
       credential_strings = 'asdf'
       expect {result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })}.to raise_error()
     end
