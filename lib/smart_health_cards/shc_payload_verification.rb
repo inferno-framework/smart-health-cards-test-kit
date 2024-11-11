@@ -111,7 +111,6 @@ module SmartHealthCards
           end
         end
       end
-      #output decompressed_payloads: decompressed_payload_array.join(',')
       output decompressed_payloads: decompressed_payload_array
     end
   end
