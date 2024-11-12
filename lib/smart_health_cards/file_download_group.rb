@@ -3,6 +3,7 @@ require 'json'
 require_relative 'shc_header_verification'
 require_relative 'shc_fhir_validation'
 require_relative 'shc_payload_verification'
+require_relative 'shc_signature_verification'
 
 module SmartHealthCards
   class FileDownloadGroup < Inferno::TestGroup
@@ -108,6 +109,8 @@ module SmartHealthCards
     end
 
     test from: :shc_header_verification_test
+
+    test from: :shc_signature_verification_test
 
     test from: :shc_payload_verification_test
 
