@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     smart_health_cards_test_kit (0.0.1)
+      health_cards (= 1.1.0)
       inferno_core (~> 0.4.38)
 
 GEM
@@ -313,7 +314,6 @@ DEPENDENCIES
   database_cleaner-sequel (~> 1.8)
   debug
   factory_bot (~> 6.1)
-  health_cards
   rspec (~> 3.10)
   smart_health_cards_test_kit!
   webmock (~> 3.11)
