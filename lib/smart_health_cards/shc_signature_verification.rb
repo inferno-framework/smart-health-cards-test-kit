@@ -29,10 +29,12 @@ module SmartHealthCards
 
         key_set_url = "#{iss}/.well-known/jwks.json"
 
-        binding.pry
+        #binding.pry
         #TODO: wip. Commiting now so I don't lose progress
 
         get(key_set_url)
+
+        binding.pry
 
         assert_response_status(200)
         assert_valid_json(response[:body])
@@ -49,6 +51,7 @@ module SmartHealthCards
 
         public_key = key_set['keys'].find { |key| key['kid'] == jws.kid }
         key_object = HealthCards::Key.from_jwk(public_key)
+
 
         assert public_key.present?, "Key set did not contain a key with a `kid` of #{jws.kid}"
 

@@ -25,7 +25,6 @@ module SmartHealthCards
 
       run do
         get(file_download_url, name: :shc_file_download)
-
         assert_response_status(200)
         assert_valid_json(response[:body])
       end
