@@ -1,4 +1,4 @@
-
+require_relative 'shc_header_verification'
 module SmartHealthCards
   class FileDownloadGroup < Inferno::TestGroup
     id :shc_file_download_group
@@ -14,7 +14,6 @@ module SmartHealthCards
 
 
       run do
-        binding.pry
         get(file_download_url, name: :shc_file_download)
 
         assert_response_status(200)
@@ -87,6 +86,10 @@ module SmartHealthCards
         pass "Received #{vc.length} verifiable #{'credential'.pluralize(vc.length)}"
       end
     end
+
+    test from: :shc_header_verification_test
+
+    
 
     # test from: :vc_headers do
     #   id 'vci-file-05'
