@@ -26,8 +26,6 @@ RSpec.describe SmartHealthCards::FileDownloadGroup do
         stub_request(:get, url)
           .to_return(status: 200, body: { abc: 'def' }.to_json)
 
-      #binding.pry
-
       result = run(test, { file_download_url: url, url: url })
 
       expect(stubbed_request).to have_been_made.once
@@ -58,10 +56,6 @@ RSpec.describe SmartHealthCards::FileDownloadGroup do
       expect(result.result_message).to match(/JSON/)
     end
   end
-
-  
-
-
 
   # describe 'vci-file-02' do
   #   let(:test) { group.tests[1] }
