@@ -8,33 +8,20 @@ module SmartHealthCards
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
       decompressed_signature_array = []
-      
+
       credential_strings.split(',').each do |credential|
-        card = HealthCards::JWS.from_jws(credential)
+        card = HealthCards::HealthCard.from_jws(credential)
+        iss = card.issuer
 
-        #this is the signature verification test, so we're not verifying the payload, but we still need the payload to get the issuer
-        decompressed_payload =
-        begin
-          Zlib::Inflate.new(-Zlib::MAX_WBITS).inflate(card.payload)
-        rescue Zlib::DataError
-          assert false, 'Payload compression error. Unable to inflate payload.'
-        end
-
-        json_payload = JSON.parse(decompressed_payload)
-        iss = json_payload['iss']
+        jws = HealthCards::JWS.from_jws(credential)
 
         assert iss.present?, 'Credential contains no `iss`'
         warning { assert iss.start_with?('https://'), "`iss` SHALL use the `https` scheme: #{iss}" }
         assert !iss.end_with?('/'), "`iss` SHALL NOT include a trailing `/`: #{iss}"
 
-        key_set_url = "#{iss}/.well-known/jwks.json"
-
-        #binding.pry
-        #TODO: wip. Commiting now so I don't lose progress
+        key_set_url = "#{card.issuer}/.well-known/jwks.json"
 
         get(key_set_url)
-
-        binding.pry
 
         assert_response_status(200)
         assert_valid_json(response[:body])
@@ -51,7 +38,6 @@ module SmartHealthCards
 
         public_key = key_set['keys'].find { |key| key['kid'] == jws.kid }
         key_object = HealthCards::Key.from_jwk(public_key)
-
 
         assert public_key.present?, "Key set did not contain a key with a `kid` of #{jws.kid}"
 
