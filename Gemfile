@@ -6,5 +6,4 @@ gemspec
 
 group :development, :test do
   gem 'debug'
-  gem 'health_cards'
 end

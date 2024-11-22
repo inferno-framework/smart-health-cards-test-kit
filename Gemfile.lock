@@ -314,7 +314,6 @@ DEPENDENCIES
   database_cleaner-sequel (~> 1.8)
   debug
   factory_bot (~> 6.1)
-  health_cards
   rspec (~> 3.10)
   smart_health_cards_test_kit!
   webmock (~> 3.11)
