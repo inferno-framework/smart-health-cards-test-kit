@@ -2,6 +2,7 @@ require 'health_cards'
 require 'json'
 require_relative 'shc_payload_verification'
 require_relative 'shc_header_verification'
+require_relative 'shc_fhir_validation'
 module SmartHealthCards
   class FileDownloadGroup < Inferno::TestGroup
     id :shc_file_download_group
@@ -93,6 +94,8 @@ module SmartHealthCards
     test from: :shc_header_verification_test
 
     test from: :shc_payload_verification_test 
+
+    test from: :shc_fhir_validation_test
 
     # test from: :vc_headers do
     #   id 'vci-file-05'
