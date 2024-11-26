@@ -2,7 +2,7 @@ module SmartHealthCards
   class SHCFHIRValidation < Inferno::Test
     id :shc_fhir_validation_test
     title 'Smart Health Card payloads conform to the correct Bundle Profiles' #TODO: update title with specific bundle type
-    input :credential_strings
+    input :credential_strings, :skip_validation
     output :fhir_bundles
 
     run do
@@ -32,15 +32,8 @@ module SmartHealthCards
 
         bundle = FHIR::Bundle.new(raw_bundle)
 
-        #binding.pry
-
         #TODO: need url for SHC bundle (existing url was copied from vaccination test kit)
-        warning do
-          assert_valid_resource(
-            resource: bundle,
-            profile_url: 'http://hl7.org/fhir/uv/smarthealthcards-vaccination/StructureDefinition/vaccination-credential-bundle-dm'
-          )
-        end
+        assert_valid_resource(resource: bundle) unless skip_validation
 
       end
       #TODO: populate output variable fhir_bundles
