@@ -39,7 +39,6 @@ RSpec.describe SmartHealthCards::SHCHeaderVerification do
       #   to_return(status: 200, body: FHIR::OperationOutcome.new.to_json, headers: {})
       
       result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings, skip_validation: true })
-      binding.pry
       expect(result.result).to eq('pass')
     end
 

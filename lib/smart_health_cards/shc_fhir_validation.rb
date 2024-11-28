@@ -1,13 +1,14 @@
 module SmartHealthCards
   class SHCFHIRValidation < Inferno::Test
     id :shc_fhir_validation_test
-    title 'Smart Health Card payloads conform to the correct Bundle Profiles' #TODO: update title with specific bundle type
+    title 'Smart Health Card payloads conform to the FHIR Bundle Profile' 
     input :credential_strings, :skip_validation
     output :fhir_bundles
 
     run do
 
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
+      bundle_array = []
 
       credential_strings.split(',').each do |credential|
         raw_payload = HealthCards::JWS.from_jws(credential).payload
@@ -31,12 +32,11 @@ module SmartHealthCards
         assert raw_bundle.is_a?(Hash), "Expected 'vc.fhirBundle' to be a JSON object, but found #{raw_bundle.class}"
 
         bundle = FHIR::Bundle.new(raw_bundle)
-
-        #TODO: need url for SHC bundle (existing url was copied from vaccination test kit)
         assert_valid_resource(resource: bundle) unless skip_validation
+        bundle_array.append(bundle)
 
       end
-      #TODO: populate output variable fhir_bundles
+      output fhir_bundles: bundle_array
     end
   end
 end
