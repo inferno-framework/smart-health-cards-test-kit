@@ -11,10 +11,10 @@ module SmartHealthCards
     #input :file_download_url
 
     test do
-      id :health_card_download_test
+      id :qr_code_scan_test
       title 'Scan QR Code'
       description 'The health card can be scanned from QR code and is a valid JSON object.'
-      makes_request :shc_file_download
+      makes_request :qr_code_scan
 
 
       run do
