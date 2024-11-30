@@ -1,5 +1,9 @@
+require_relative 'health_card'
+
 module SmartHealthCards
   class SHCPayloadVerification < Inferno::Test
+    include HealthCard
+
     id :shc_payload_verification_test
     title 'Verify the correct SHC payload'
     description %(
@@ -38,32 +42,8 @@ module SmartHealthCards
       decompressed_payload_array = []
 
       credential_strings.split(',').each do |credential|
-        raw_payload = HealthCards::JWS.from_jws(credential).payload
-        assert raw_payload&.length&.positive?, 'No payload found'
-
-        decompressed_payload =
-        begin
-          Zlib::Inflate.new(-Zlib::MAX_WBITS).inflate(raw_payload)
-        rescue Zlib::DataError
-          assert false, 'Payload compression error. Unable to inflate payload.'
-        end
-
-        decompressed_payload_array.append(decompressed_payload)
-
-        assert decompressed_payload.length.positive?, 'Payload compression error. Unable to inflate payload.'
-
-        raw_payload_length = raw_payload.length
-        decompressed_payload_length = decompressed_payload.length
-
-        warning do
-          assert raw_payload_length <= decompressed_payload_length,
-                "Payload may not be properly minified. Received a payload with length #{raw_payload_length}, " \
-                "but was able to generate a payload with length #{decompressed_payload_length}"
-        end
-
-        assert_valid_json decompressed_payload, 'Payload is not valid JSON'
-
-        payload = JSON.parse(decompressed_payload)
+        jws = HealthCards::JWS.from_jws(credential)
+        payload = payload_from_jws(jws)
 
         warning do
           nbf = payload['nbf']

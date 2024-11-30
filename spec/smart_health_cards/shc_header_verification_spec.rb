@@ -18,7 +18,7 @@ RSpec.describe SmartHealthCards::SHCHeaderVerification do
   end
 
   describe 'health_card_header_test' do
-    let(:test) { group.tests[4] }
+    let(:test) { group.tests.find{ |t| t.id.include?('shc_header_verification_test')} }
     let(:url) { 'http://example.com/hc' }
 
     it 'passes if the decoded jws contains a valid header' do

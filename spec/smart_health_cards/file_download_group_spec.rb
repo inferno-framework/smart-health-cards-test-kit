@@ -18,7 +18,7 @@ RSpec.describe SmartHealthCards::FileDownloadGroup do
   end
 
   describe 'health_card_download_test' do
-    let(:test) { group.tests.first }
+    let(:test) { group.tests.find { |t| t.id.include?('health_card_download_test')} }
     let(:url) { 'http://example.com/hc' }
 
     it 'passes if valid json is downloaded' do

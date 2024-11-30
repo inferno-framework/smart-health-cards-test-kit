@@ -1,5 +1,9 @@
+require_relative 'health_card'
+
 module SmartHealthCards
   class SHCSignatureVerification < Inferno::Test
+    include HealthCard
+
     id :shc_signature_verification_test
     title 'Verify the correct SHC signature'
     input :credential_strings
@@ -10,16 +14,15 @@ module SmartHealthCards
       decompressed_signature_array = []
 
       credential_strings.split(',').each do |credential|
-        card = HealthCards::HealthCard.from_jws(credential)
-        iss = card.issuer
-
         jws = HealthCards::JWS.from_jws(credential)
+        payload = payload_from_jws(jws)
+        iss = payload['iss']
 
         assert iss.present?, 'Credential contains no `iss`'
         warning { assert iss.start_with?('https://'), "`iss` SHALL use the `https` scheme: #{iss}" }
         assert !iss.end_with?('/'), "`iss` SHALL NOT include a trailing `/`: #{iss}"
 
-        key_set_url = "#{card.issuer}/.well-known/jwks.json"
+        key_set_url = "#{iss}/.well-known/jwks.json"
 
         get(key_set_url)
 
