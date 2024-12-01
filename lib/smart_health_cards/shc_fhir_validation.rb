@@ -20,8 +20,18 @@ module SmartHealthCards
           rescue Zlib::DataError
             assert false, 'Payload compression error. Unable to inflate payload.'
           end
+        
+        assert decompressed_payload != nil, 'decompressed_payload cannot be nil'
+        assert decompressed_payload.is_a?(String), 'decompressed_payload must be a String'
+        assert decompressed_payload != '', 'decompressed_payload cannot be blank'
 
-        payload = JSON.parse(decompressed_payload)
+        payload =
+          begin
+            JSON.parse(decompressed_payload)
+          rescue Zlib::DataError
+            assert false, 'decompressed_payload must be valid JSON'
+          end
+
         vc = payload['vc']
         assert vc.is_a?(Hash), "Expected 'vc' claim to be a JSON object, but found #{vc.class}"
 
