@@ -14,17 +14,35 @@ module SmartHealthCards
       id :qr_code_scan_test
       title 'Scan QR Code'
       description 'The health card can be scanned from QR code and is a valid JSON object.'
-      makes_request :qr_code_scan
 
+      # Assign a name to the incoming request so that it can be inspected by
+      # other tests.
+      receives_request :post_qr_code
 
       run do
-        # get(file_download_url, name: :shc_file_download)
+        run_id = SecureRandom.uuid
 
-        # assert_response_status(200)
-        # assert_valid_json(response[:body])
+        wait(
+          identifier: run_id,
+          message: %(
+            [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
+          )
+        )
       end
     end
 
+    test do
+      id 'next_1'
+
+      # Make the incoming request from the previous test available here.
+      uses_request :post_qr_code
+
+      title 'what ever'
+
+      run do
+        assert 1==1
+      end
+    end
     # test do
     #   id :content_type_test
     #   title 'Response contains correct Content-Type of application/smart-health-card'
