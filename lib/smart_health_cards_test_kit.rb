@@ -1,4 +1,5 @@
 require_relative 'smart_health_cards/file_download_group'
+require_relative 'smart_health_cards/qr_code_group'
 
 module SmartHealthCards
   class Suite < Inferno::TestSuite
@@ -34,5 +35,6 @@ module SmartHealthCards
     # Tests and TestGroups can be written in separate files and then included
     # using their id
     group from: :shc_file_download_group
+    group from: :shc_qr_code_group
   end
 end
