@@ -19,7 +19,7 @@ RSpec.describe SmartHealthCards::SHCHeaderVerification do
 
   describe 'health_card_fhir_validation_test' do
 
-    let(:test) { group.tests[6] } #TODO: is there a way to identify the tests without the hard-coded array index?
+    let(:test) { group.tests.find { |t| t.id.include?('shc_fhir_validation_test')} } 
     let(:url) { 'http://example.com/hc' }
 
     #TODO: update text with specific bundle type
