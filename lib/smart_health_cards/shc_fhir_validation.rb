@@ -21,9 +21,8 @@ module SmartHealthCards
             assert false, 'Payload compression error. Unable to inflate payload.'
           end
         
-        assert decompressed_payload != nil, 'decompressed_payload cannot be nil'
-        assert decompressed_payload.is_a?(String), 'decompressed_payload must be a String'
-        assert decompressed_payload != '', 'decompressed_payload cannot be blank'
+        assert decompressed_payload.present? 'Payload compression error. Unable to inflate payload.'
+        assert_valid_json(decompressed_payload)
 
         payload =
           begin
