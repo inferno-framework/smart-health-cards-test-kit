@@ -7,6 +7,7 @@ module SmartHealthCards
   class QrCodeGroup < Inferno::TestGroup
     id :shc_qr_code_group
     title 'Download and validate a health card via QR code'
+    run_as_group
 
     #input :file_download_url
 
@@ -26,21 +27,44 @@ module SmartHealthCards
           identifier: run_id,
           message: %(
             [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
+
+            [Follow this link to upload QR code from a image file](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/upload_qr_code?id=#{run_id})
           )
         )
       end
     end
 
     test do
-      id 'next_1'
+      id :shc_qr_code_segement_test
 
       # Make the incoming request from the previous test available here.
       uses_request :post_qr_code
 
-      title 'what ever'
+      title 'QR Code Segment Tests'
+      description %(
+        QR Code SHALL have two segements:
+
+        * A segment encoded with bytes mode consisting of
+          * the fixed string shc:/
+        * A segment encoded with numeric mode consisting of the characters 0-9.
+      )
 
       run do
-        assert 1==1
+        # require 'debug/open_nonstop'
+        # debugger
+        request_body = request.request_body
+        assert request_body.present?, 'Could not read QR code'
+        assert_valid_json(request_body)
+
+        payload = JSON.parse(request_body)
+        assert payload.present?, 'Invalid JSON payload'
+
+        qr_code_content = payload['qr_code_content']
+        assert qr_code_content.present?, 'QR code is empty'
+
+        health_card_pattern = /^shc:\/(?<multipleChunks>(?<chunkIndex>[0-9]+)\/(?<chunkCount>[0-9]+)\/)?[0-9]+$/;
+
+        assert health_card_pattern.match?(qr_code_content), "QR does not match the required pattern #{health_card_pattern.inspect}"
       end
     end
     # test do

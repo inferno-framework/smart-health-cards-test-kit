@@ -1,0 +1,96 @@
+<div>
+  <form id="upload-qr-code" action="post_qr_code" accept-charset="UTF-8" method="post">
+    <div class="field is-grouped">
+      <div class="file has-name">
+        <label class="file-label">
+          <input type="file" name="qr_file" id="qr_file" accept=".png, .jpg, .jpeg" class="file-input">
+          <span class="file-name">No file uploaded</span>
+        </label>
+      </div>
+      <p></p>
+      <p class="control">
+        <input type="submit" class="button is-success ml-1" id="upload-button" disabled>
+      </p>
+    </div>
+  </form>
+  <canvas id="qr-canvas" style="display: none;"></canvas>
+  <p id="qr-content"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const fileInput = document.getElementById('qr_file');
+      const fileName = document.querySelector('.file-name');
+      const uploadButton = document.getElementById('upload-button');
+      const qrCanvas = document.getElementById('qr-canvas');
+      const qrContent = document.getElementById('qr-content');
+      const form = document.getElementById('upload-qr-code');
+
+      // Update form action if `id` query param is present
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestId = urlParams.get('id');
+      if (requestId) {
+        form.action += '?id=' + encodeURIComponent(requestId);
+      }
+
+      fileInput.addEventListener('change', function () {
+        const file = fileInput.files[0];
+        if (file) {
+          fileName.textContent = file.name;
+          uploadButton.disabled = false;
+
+          // Read the image file and decode QR code
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+              // Draw the image on the canvas
+              const ctx = qrCanvas.getContext('2d');
+              qrCanvas.width = img.width;
+              qrCanvas.height = img.height;
+              ctx.drawImage(img, 0, 0, img.width, img.height);
+
+              // Get image data from the canvas
+              const imageData = ctx.getImageData(0, 0, qrCanvas.width, qrCanvas.height);
+
+              // Decode QR code using jsQR
+              const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+              if (qrCode) {
+                qrContent.textContent = `QR Code Content: ${qrCode.data}`;
+
+                // Post QR code content to the server
+                const postUrl = `${form.action}`;
+                fetch(postUrl, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ qr_code_content: qrCode.data }),
+                })
+                  .then(response => {
+                    if (response.ok) {
+                      qrContent.textContent += " - QR Code successfully posted to server.";
+                      // Navigate back to the previous page
+                      window.history.back();
+                    } else {
+                      qrContent.textContent += " - Error posting QR code to server.";
+                    }
+                  })
+                  .catch(error => {
+                    qrContent.textContent += ` - Network error: ${error}`;
+                  });
+              } else {
+                qrContent.textContent = 'No QR code detected in the image.';
+              }
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          fileName.textContent = 'No file uploaded';
+          uploadButton.disabled = true;
+        }
+      });
+    });
+  </script>
+</div>

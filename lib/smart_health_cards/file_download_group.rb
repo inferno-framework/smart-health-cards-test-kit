@@ -7,6 +7,7 @@ module SmartHealthCards
   class FileDownloadGroup < Inferno::TestGroup
     id :shc_file_download_group
     title 'Download and validate a health card via file download'
+    run_as_group
 
     input :file_download_url
 
@@ -90,10 +91,10 @@ module SmartHealthCards
         pass "Received #{vc.length} verifiable #{'credential'.pluralize(vc.length)}"
       end
     end
-    
+
     test from: :shc_header_verification_test
 
-    test from: :shc_payload_verification_test 
+    test from: :shc_payload_verification_test
 
     test from: :shc_fhir_validation_test
 
