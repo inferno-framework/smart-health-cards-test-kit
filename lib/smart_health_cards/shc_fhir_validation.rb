@@ -21,7 +21,7 @@ module SmartHealthCards
             assert false, 'Payload compression error. Unable to inflate payload.'
           end
         
-        assert decompressed_payload.present? 'Payload compression error. Unable to inflate payload.'
+        assert decompressed_payload.present?, 'Payload compression error. Unable to inflate payload.'
         assert_valid_json(decompressed_payload)
 
         payload =
