@@ -35,19 +35,24 @@ module SmartHealthCards
     end
 
     test do
-      id :shc_qr_code_segement_test
-
-      # Make the incoming request from the previous test available here.
-      uses_request :post_qr_code
-
+      id :qr_code_segement_test
       title 'QR Code Segment Tests'
       description %(
-        QR Code SHALL have two segements:
+        QR Code SHALL have these segements:
 
         * A segment encoded with bytes mode consisting of
           * the fixed string shc:/
+          * plus (only if more than one chunk is required; note this feature is deprecated)
+            * decimal representation of "C" (e.g., 1 for the first chunk, 2 for the second chunk, and so on)
+            * plus the fixed string /
+            * plus decimal representation of "N" (e.g., 2 if there are two chunks in total, 3 if there three chunks in total, and so on)
+            * plus the fixed string /
         * A segment encoded with numeric mode consisting of the characters 0-9.
       )
+
+      # Make the incoming request from the previous test available here.
+      uses_request :post_qr_code
+      output :qr_code_content
 
       run do
         # require 'debug/open_nonstop'
@@ -65,92 +70,31 @@ module SmartHealthCards
         health_card_pattern = /^shc:\/(?<multipleChunks>(?<chunkIndex>[0-9]+)\/(?<chunkCount>[0-9]+)\/)?[0-9]+$/;
 
         assert health_card_pattern.match?(qr_code_content), "QR does not match the required pattern #{health_card_pattern.inspect}"
+
+        output qr_code_content: qr_code_content
       end
     end
-    # test do
-    #   id :content_type_test
-    #   title 'Response contains correct Content-Type of application/smart-health-card'
-    #   uses_request :shc_file_download
 
-    #   run do
-    #     skip_if request.status != 200, 'Health card not successfully downloaded'
+    test do
+      id :qr_code_verifiable_credential_test
+      title 'QR Code contains an array of Verifiable Credential strings'
 
-    #     content_type = request.response_header('Content-Type')
+      input :qr_code_content
+      output :credential_strings
 
-    #     assert content_type.present?, 'Response did not include a Content-Type header'
-    #     assert content_type.value.match?(%r{\Aapplication/smart-health-card(\z|\W)}),
-    #            "Content-Type header was '#{content_type.value}' instead of 'application/smart-health-card'"
-    #   end
-    # end
+      run do
+        skip_if qr_code_content.blank?, 'No QR code chunks received'
 
-    # test do
-    #   id :file_extension_test
-    #   title 'Health card is provided as a file download with a .smart-health-card extension'
-    #   uses_request :shc_file_download
+        vc = HealthCards::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
+        assert vc.present?, 'QR code does not have valid verifiable credential string'
 
-    #   run do
-    #     skip_if request.status != 200, 'Health card not successfully downloaded'
+        output credential_strings: vc
+      end
+    end
 
-    #     pass_if request.url.ends_with?('.smart-health-card')
 
-    #     content_disposition = request.response_header('Content-Disposition')
-    #     assert content_disposition.present?,
-    #            "Url did not end with '.smart-health-card' and response did not include a Content-Disposition header"
+    test from: :shc_header_verification_test
 
-    #     attachment_pattern = /\Aattachment;/
-    #     assert content_disposition.value.match?(attachment_pattern),
-    #            "Url did not end with '.smart-health-card' and " \
-    #            "Content-Disposition header does not indicate file should be downloaded: '#{content_disposition}'"
-
-    #     extension_pattern = /filename=".*\.smart-health-card"/
-    #     assert content_disposition.value.match?(extension_pattern),
-    #            "Url did not end with '.smart-health-card' and Content-Disposition header does not indicate " \
-    #            "file should have a '.smart-health-card' extension: '#{content_disposition}'"
-    #   end
-    # end
-
-    # test do
-    #   id :verifiable_credential_test
-    #   title 'Response contains an array of Verifiable Credential strings'
-    #   uses_request :shc_file_download
-    #   output :credential_strings
-
-    #   run do
-    #     skip_if request.status != 200, 'Health card not successfully downloaded'
-
-    #     body = JSON.parse(response[:body])
-    #     assert body.include?('verifiableCredential'),
-    #            "Health card does not contain 'verifiableCredential' field"
-
-    #     vc = body['verifiableCredential']
-
-    #     assert vc.is_a?(Array), "'verifiableCredential' field must contain an Array"
-    #     assert vc.length.positive?, "'verifiableCredential' field must contain at least one verifiable credential"
-
-    #     output credential_strings: vc.join(',')
-
-    #     pass "Received #{vc.length} verifiable #{'credential'.pluralize(vc.length)}"
-    #   end
-    # end
-
-    # test from: :shc_header_verification_test
-
-    # test from: :shc_payload_verification_test
-
-    # test from: :vc_headers do
-    #   id 'vci-file-05'
-    # end
-
-    # test from: :vc_signature_verification do
-    #   id 'vci-file-06'
-    # end
-
-    # test from: :vc_payload_verification do
-    #   id 'vci-file-07'
-    # end
-
-    # test from: :vc_fhir_verification do
-    #   id 'vci-file-08'
-    # end
+    test from: :shc_payload_verification_test
   end
 end

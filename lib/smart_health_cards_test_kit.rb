@@ -11,10 +11,10 @@ module SmartHealthCards
     # input :url,
     #       title: 'FHIR Server Base Url'
 
-    input :credentials,
-          title: 'OAuth Credentials',
-          type: :oauth_credentials,
-          optional: true
+    # input :credentials,
+    #       title: 'OAuth Credentials',
+    #       type: :oauth_credentials,
+    #       optional: true
 
     # All FHIR requests in this suite will use this FHIR client
     fhir_client do
