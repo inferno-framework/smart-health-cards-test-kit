@@ -8,13 +8,13 @@
         </label>
       </div>
       <p></p>
+      <p id="qr-content" style="margin-top: 10px;"></p>
       <p class="control">
         <input type="submit" class="button is-success ml-1" id="upload-button" disabled>
       </p>
     </div>
   </form>
   <canvas id="qr-canvas" style="display: none;"></canvas>
-  <p id="qr-content"></p>
 
   <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
   <script>
@@ -25,6 +25,8 @@
       const qrCanvas = document.getElementById('qr-canvas');
       const qrContent = document.getElementById('qr-content');
       const form = document.getElementById('upload-qr-code');
+
+      let qrCodeContent = null;
 
       // Update form action if `id` query param is present
       const urlParams = new URLSearchParams(window.location.search);
@@ -37,7 +39,6 @@
         const file = fileInput.files[0];
         if (file) {
           fileName.textContent = file.name;
-          uploadButton.disabled = false;
 
           // Read the image file and decode QR code
           const reader = new FileReader();
@@ -57,30 +58,11 @@
               const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
               if (qrCode) {
                 qrContent.textContent = `QR Code Content: ${qrCode.data}`;
-
-                // Post QR code content to the server
-                const postUrl = `${form.action}`;
-                fetch(postUrl, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ qr_code_content: qrCode.data }),
-                })
-                  .then(response => {
-                    if (response.ok) {
-                      qrContent.textContent += " - QR Code successfully posted to server.";
-                      // Navigate back to the previous page
-                      window.history.back();
-                    } else {
-                      qrContent.textContent += " - Error posting QR code to server.";
-                    }
-                  })
-                  .catch(error => {
-                    qrContent.textContent += ` - Network error: ${error}`;
-                  });
+                qrCodeContent = qrCode.data; // Store the decoded content
+                uploadButton.disabled = false; // Enable the submit button
               } else {
                 qrContent.textContent = 'No QR code detected in the image.';
+                uploadButton.disabled = true;
               }
             };
             img.src = e.target.result;
@@ -89,6 +71,33 @@
         } else {
           fileName.textContent = 'No file uploaded';
           uploadButton.disabled = true;
+          qrContent.textContent = '';
+        }
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        if (qrCodeContent) {
+          const postUrl = `${form.action}`;
+          fetch(postUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ qr_code_content: qrCodeContent }),
+          })
+            .then(response => {
+              if (response.ok) {
+                qrContent.textContent += " - QR Code successfully posted to server.";
+                window.history.back(); // Go back to the previous page
+              } else {
+                qrContent.textContent += " - Error posting QR code to server.";
+              }
+            })
+            .catch(error => {
+              qrContent.textContent += ` - Network error: ${error}`;
+            });
         }
       });
     });
