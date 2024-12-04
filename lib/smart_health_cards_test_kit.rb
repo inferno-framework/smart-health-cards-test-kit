@@ -42,11 +42,6 @@ module SmartHealthCards
     # Serve an html page at INFERNO_PATH/my_test_suite/custom/my_html_page
     route(:get, '/scan_qr_code', my_html_route_handler)
 
-
-    # resume_test_route :post, '/upload_qr_file' do |request|
-    #   request.query_parameters['id']
-    # end
-
     upload_html = File.read(File.join(__dir__, 'upload_qr_code.html'))
     upload_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [upload_html]] }
 

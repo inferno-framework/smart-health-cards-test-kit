@@ -56,8 +56,6 @@ module SmartHealthCards
       output :qr_code_content
 
       run do
-        # require 'debug/open_nonstop'
-        # debugger
         request_body = request.request_body
         assert request_body.present?, 'Could not read QR code'
         assert_valid_json(request_body)
