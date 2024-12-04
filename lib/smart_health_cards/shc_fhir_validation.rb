@@ -1,8 +1,8 @@
 module SmartHealthCards
   class SHCFHIRValidation < Inferno::Test
     id :shc_fhir_validation_test
-    title 'Smart Health Card payloads conform to the FHIR Bundle Profile' 
-    input :credential_strings, :skip_validation
+    title 'Smart Health Card payloads conform to the FHIR Bundle Profile'
+    input :credential_strings
     output :fhir_bundles
 
     run do
@@ -20,7 +20,7 @@ module SmartHealthCards
           rescue Zlib::DataError
             assert false, 'Payload compression error. Unable to inflate payload.'
           end
-        
+
         assert decompressed_payload.present?, 'Payload compression error. Unable to inflate payload.'
         assert_valid_json(decompressed_payload)
 
@@ -41,7 +41,7 @@ module SmartHealthCards
         assert raw_bundle.is_a?(Hash), "Expected 'vc.fhirBundle' to be a JSON object, but found #{raw_bundle.class}"
 
         bundle = FHIR::Bundle.new(raw_bundle)
-        assert_valid_resource(resource: bundle) unless skip_validation
+        assert_valid_resource(resource: bundle)
         bundle_array.append(bundle)
 
       end
