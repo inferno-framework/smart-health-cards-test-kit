@@ -1,68 +1,120 @@
-<%= javascript_pack_tag 'qr_code_scan' %>
-
-<section class="hero is-small is-success">
-  <div class="hero-body">
-    <p class="title">
-      <%= link_to root_path, 'aria-label': 'Back to home page' do%>
-        <i class="fa fa-caret-left"></i>
-      <% end %>
-      Scan a QR Code
-    </p>
-  </div>
-</section>
-<% flash.each do |type, msg| %>
-  <div class="notification is-warning is-light">
-    <p><%= msg %></p>
-  </div>
-<% end %>
-<div class="section">
-  <div class="container">
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <button id="start" class="button is-info">Start</button>
-        </div>
-        <div class="level-item">
-          <button id="stop" class="button is-info" disabled>Stop</button>
-        </div>
-      </div>
-      <div class="level-right" id="multi-status-container">
-      </div>
+<head>
+</head>
+<body onload="onLoad()">
+  <section class="hero is-small is-success">
+    <div class="hero-body">
+      <p class="title">
+          <i class="fa fa-caret-left"></i>
+        Scan a QR Code
+      </p>
     </div>
-    <video id="preview"></video>
-
-    <div class="notification is-success is-light" hidden id="success-notification">
+  </section>
+    <div class="notification is-warning is-light">
+    </div>
+  <div class="section">
+    <div class="container">
       <div class="level">
         <div class="level-left">
           <div class="level-item">
-            <span class="icon is-large">
-              <i class="fa fa-check-circle fa-2x"></i>
-            </span>
-            <span class="is-size-4">QR code scanned successfully.</span>
+            <button id="start" class="button is-info" onclick="disableStartButton()">Start</button>
+          </div>
+          <div class="level-item">
+            <button id="stop" class="button is-info" onclick="enableStartButton()" disabled>Stop</button>
           </div>
         </div>
-        <div class="level-right">
-          <div class="level-item">
-            <%= form_with url: qr_codes_path, method: :post do |f| %>
-              <%= f.hidden_field :qr_contents, id: 'qr-contents' %>
-              <%= f.submit 'View Contents', class: 'button is-info' %>
-            <% end %>
+        <div class="level-right" id="multi-status-container">
+        </div>
+      </div>
+      <video id="preview"></video>
+
+      <div class="notification is-success is-light" hidden id="success-notification">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <span class="icon is-large">
+                <i class="fa fa-check-circle fa-2x"></i>
+              </span>
+              <span class="is-size-4">QR code scanned successfully.</span>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="notification is-danger is-light" hidden id="error-notification">
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <span class="icon is-large">
-              <i class="fa fa-times-circle fa-2x"></i>
-            </span>
-            <span class="is-size-4">QR code does not contain a SMART Health Card.</span>
+      <div class="notification is-danger is-light" hidden id="error-notification">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <span class="icon is-large">
+                <i class="fa fa-times-circle fa-2x"></i>
+              </span>
+              <span class="is-size-4">QR code does not contain a SMART Health Card.</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <script type="module">
+
+    //import QrScanner from './qr-scanner.min.js';
+    
+    //import QrScannerWorkerPath from './qr-scanner-worker.min.js';
+    //QrScanner.WORKER_PATH = QrScannerWorkerPath;
+    //QrScanner.WORKER_PATH = './qr-scanner-worker.min.js';
+
+    let qrScanner;
+    let startButton;
+    let stopButton;
+    let successNotification;
+    let errorNotification;
+    let inputField;
+    let multiStatusContainer;
+
+    let scannedCodes = [];
+
+    function onLoad() {
+      console.log("hi");
+      const videoElement = document.getElementById('preview');
+
+      //qrScanner = new QrScanner(videoElement, handleScan);
+
+      startButton = document.getElementById('start');
+      stopButton = document.getElementById('stop');
+      successNotification = document.getElementById('success-notification');
+      errorNotification = document.getElementById('error-notification');
+      //inputField = document.getElementById('qr-contents');
+      multiStatusContainer = document.getElementById('multi-status-container');
+
+      startButton.addEventListener('click', startScanning);
+      stopButton.addEventListener('click', stopScanning);
+    }
+
+    const startScanning = () => {
+      disableStartButton();
+      //hideSuccessNotification();
+      //hideErrorNotification();
+      //qrScanner.start();
+    };
+
+    const stopScanning = () => {
+      enableStartButton();
+      //qrScanner.stop();
+    };
+
+    const disableStartButton = () => {
+      startButton.setAttribute('disabled', true);
+      stopButton.removeAttribute('disabled');
+    };
+
+    const enableStartButton = () => {
+      stopButton.setAttribute('disabled', true);
+      startButton.removeAttribute('disabled');
+    };
+
+  </script>
+</body>

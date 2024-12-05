@@ -39,13 +39,22 @@ module SmartHealthCards
     my_html = File.read(File.join(__dir__, 'new.html'))
     my_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [my_html]] }
 
+    my_js = File.read(File.join(__dir__, 'qr-scanner.min.js'))
+    my_js_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js]] }
+
+    my_js_worker = File.read(File.join(__dir__, 'qr-scanner-worker.min.js'))
+    my_js_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker]] }
+
     # Serve an html page at INFERNO_PATH/my_test_suite/custom/my_html_page
     route(:get, '/scan_qr_code', my_html_route_handler)
+    route(:get, '/qr-scanner.min.js', my_js_route_handler)
+    route(:get, '/qr-scanner-worker.min.js', my_js_worker_route_handler)
 
     upload_html = File.read(File.join(__dir__, 'upload_qr_code.html'))
     upload_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [upload_html]] }
 
     route(:get, '/upload_qr_code', upload_html_route_handler)
+    
 
     # Tests and TestGroups can be written in separate files and then included
     # using their id
