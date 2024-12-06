@@ -98,21 +98,5 @@ module SmartHealthCards
     test from: :shc_payload_verification_test
 
     test from: :shc_fhir_validation_test
-
-    # test from: :vc_headers do
-    #   id 'vci-file-05'
-    # end
-
-    # test from: :vc_signature_verification do
-    #   id 'vci-file-06'
-    # end
-
-    # test from: :vc_payload_verification do
-    #   id 'vci-file-07'
-    # end
-
-    # test from: :vc_fhir_verification do
-    #   id 'vci-file-08'
-    # end
   end
 end

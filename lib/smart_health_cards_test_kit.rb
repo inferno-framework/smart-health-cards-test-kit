@@ -1,5 +1,6 @@
 require_relative 'smart_health_cards/file_download_group'
 require_relative 'smart_health_cards/qr_code_group'
+require_relative 'smart_health_cards/fhir_operation_group'
 
 module SmartHealthCards
   class Suite < Inferno::TestSuite
@@ -54,11 +55,12 @@ module SmartHealthCards
     upload_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [upload_html]] }
 
     route(:get, '/upload_qr_code', upload_html_route_handler)
-    
+
 
     # Tests and TestGroups can be written in separate files and then included
     # using their id
     group from: :shc_file_download_group
     group from: :shc_qr_code_group
+    group from: :shc_fhir_operation_group
   end
 end
