@@ -44,6 +44,23 @@
         </div>
       </div>
 
+      <div class="notification is-success is-light">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <span class="icon is-large">
+                <i class="fa fa-check-circle fa-2x"></i>
+              </span>
+              <span class="is-size-4" id="qr-contents"></span>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="notification is-danger is-light" hidden id="error-notification">
         <div class="level">
           <div class="level-left">
@@ -134,8 +151,6 @@
     window.handleScan = function(result) {
       console.log(result);
 
-      //todo: post result to endpoint, window.something? Refer to html file that uploads a saved QR code to go back to previous page
-
       if (healthCardPattern.test(result)) {
         const match = result.match(healthCardPattern);
         if (match.groups.multipleChunks) {
@@ -159,15 +174,21 @@
           if (scannedCodes.every(code => code)) {
             stopScanning();
 
-            inputField.value = JSON.stringify(scannedCodes);
+            inputField.textContent = JSON.stringify(scannedCodes);
             showSuccessNotification();
+
+            //TODO: do something here. Post result to endpoint? Need to understand the logic in this nested if statement
+
           }
         } else {
           stopScanning();
 
           multiStatusContainer.innerHTML = '';
-          inputField.value = JSON.stringify([result]);
+          inputField.textContent = JSON.stringify([result]);
           showSuccessNotification();
+
+          //TODO: post result to endpoint, window.something? Refer to html file that uploads a saved QR code to go back to previous page
+
         }
       } else {
         stopScanning();
