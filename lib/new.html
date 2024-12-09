@@ -45,20 +45,22 @@
       </div>
 
       <div class="notification is-success is-light">
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <span class="icon is-large">
-                <i class="fa fa-check-circle fa-2x"></i>
-              </span>
-              <span class="is-size-4" id="qr-contents"></span>
+        <form id="upload-qr-code" action="post_qr_code" accept-charset="UTF-8" method="post"></form>
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <span class="icon is-large">
+                  <i class="fa fa-check-circle fa-2x"></i>
+                </span>
+                <span class="is-size-4" id="qr-contents"></span>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+              </div>
             </div>
           </div>
-          <div class="level-right">
-            <div class="level-item">
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
 
       <div class="notification is-danger is-light" hidden id="error-notification">
@@ -89,6 +91,7 @@
     let errorNotification;
     let inputField;
     let multiStatusContainer;
+    let form
 
     let scannedCodes = [];
 
@@ -103,6 +106,7 @@
       errorNotification = document.getElementById('error-notification');
       inputField = document.getElementById('qr-contents');
       multiStatusContainer = document.getElementById('multi-status-container');
+      form = document.getElementById('upload-qr-code');
 
       startButton.addEventListener('click', startScanning);
       stopButton.addEventListener('click', stopScanning);
@@ -187,7 +191,26 @@
           inputField.textContent = JSON.stringify([result]);
           showSuccessNotification();
 
-          //TODO: post result to endpoint, window.something? Refer to html file that uploads a saved QR code to go back to previous page
+          //QR code scanned successfully. Post to endpoint (code borrowed from upload_qr_code.html)
+          const postUrl = `${form.action}`;
+          fetch(postUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ qr_code_content: result }),
+          })
+            .then(response => {
+              if (response.ok) {
+                inputField.textContent += " - QR Code successfully posted to server.";
+                window.history.back(); // Go back to the previous page
+              } else {
+                inputField.textContent += " - Error posting QR code to server.";
+              }
+            })
+            .catch(error => {
+              inputField.textContent += ` - Network error: ${error}`;
+            });
 
         }
       } else {
