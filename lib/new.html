@@ -63,9 +63,7 @@
 
     import QrScanner from './qr-scanner.min.js';
 
-    //import QrScannerWorkerPath from './qr-scanner-worker.min.js';
-    //QrScanner.WORKER_PATH = QrScannerWorkerPath;
-    //QrScanner.WORKER_PATH = './qr-scanner-worker.min.js';
+    const healthCardPattern = /^shc:\/(?<multipleChunks>(?<chunkIndex>[0-9]+)\/(?<chunkCount>[0-9]+)\/)?[0-9]+$/;
 
     let qrScanner;
     let startButton;
@@ -78,7 +76,6 @@
     let scannedCodes = [];
 
     window.onLoad = function() {
-      console.log("hi");
       const videoElement = document.getElementById('preview');
 
       qrScanner = new QrScanner(videoElement, handleScan);
@@ -94,14 +91,14 @@
       stopButton.addEventListener('click', stopScanning);
     }
 
-    const startScanning = () => {
+    window.startScanning = function() {
       disableStartButton();
       hideSuccessNotification();
       hideErrorNotification();
       qrScanner.start();
     };
 
-    const stopScanning = () => {
+    window.stopScanning = function() {
       enableStartButton();
       qrScanner.stop();
     };
@@ -116,65 +113,70 @@
       startButton.removeAttribute('disabled');
     };
 
+    window.hideSuccessNotification = function() {
+      successNotification.setAttribute('hidden', true);
+    };
+
+    window.showSuccessNotification = function() {
+      hideErrorNotification();
+      successNotification.removeAttribute('hidden');
+    };
+
+    window.hideErrorNotification = function() {
+      errorNotification.setAttribute('hidden', true);
+    };
+
+    window.showErrorNotification = function() {
+      hideSuccessNotification();
+      errorNotification.removeAttribute('hidden');
+    };
+
     window.handleScan = function(result) {
-    console.log(result);
+      console.log(result);
 
-    if (healthCardPattern.test(result)) {
-      const match = result.match(healthCardPattern);
-      if (match.groups.multipleChunks) {
-        hideErrorNotification();
-        const chunkCount = +match.groups.chunkCount;
-        const currentChunkIndex = +match.groups.chunkIndex;
-        if (scannedCodes.length !== chunkCount) {
-          scannedCodes = new Array(chunkCount);
-          scannedCodes.fill(null, 0, chunkCount);
-        }
-        scannedCodes[currentChunkIndex - 1] = result;
-        multiStatusContainer.innerHTML = scannedCodes
-          .map((code, index) => {
-            return code
-              ? multiPresentElement(index + 1, chunkCount)
-              : multiMissingElement(index + 1, chunkCount);
-          })
-          .join('\n');
+      //todo: post result to endpoint, window.something? Refer to html file that uploads a saved QR code to go back to previous page
 
-        if (scannedCodes.every(code => code)) {
+      if (healthCardPattern.test(result)) {
+        const match = result.match(healthCardPattern);
+        if (match.groups.multipleChunks) {
+          hideErrorNotification();
+          const chunkCount = +match.groups.chunkCount;
+          const currentChunkIndex = +match.groups.chunkIndex;
+          if (scannedCodes.length !== chunkCount) {
+            scannedCodes = new Array(chunkCount);
+            scannedCodes.fill(null, 0, chunkCount);
+          }
+          scannedCodes[currentChunkIndex - 1] = result;
+
+          multiStatusContainer.innerHTML = scannedCodes
+            .map((code, index) => {
+              return code
+                ? multiPresentElement(index + 1, chunkCount)
+                : multiMissingElement(index + 1, chunkCount);
+            })
+            .join('\n');
+
+          if (scannedCodes.every(code => code)) {
+            stopScanning();
+
+            inputField.value = JSON.stringify(scannedCodes);
+            showSuccessNotification();
+          }
+        } else {
           stopScanning();
 
-          inputField.value = JSON.stringify(scannedCodes);
+          multiStatusContainer.innerHTML = '';
+          inputField.value = JSON.stringify([result]);
           showSuccessNotification();
         }
       } else {
         stopScanning();
 
-        multiStatusContainer.innerHTML = '';
-        inputField.value = JSON.stringify([result]);
-        showSuccessNotification();
+        showErrorNotification();
       }
-    } else {
-      stopScanning();
-
-      showErrorNotification();
-    }
-  };
-
-  window.hideSuccessNotification = function() {
-      successNotification.setAttribute('hidden', true);
     };
 
-  window.showSuccessNotification = function() {
-      hideErrorNotification();
-      successNotification.removeAttribute('hidden');
-    };
 
-  window.hideErrorNotification = function() {
-      errorNotification.setAttribute('hidden', true);
-    };
-
-  window.showErrorNotification = function() {
-      hideSuccessNotification();
-      errorNotification.removeAttribute('hidden');
-    };
 
   </script>
 </body>
