@@ -192,6 +192,12 @@
           showSuccessNotification();
 
           //QR code scanned successfully. Post to endpoint (code borrowed from upload_qr_code.html)
+          const urlParams = new URLSearchParams(window.location.search);
+          const requestId = urlParams.get('id');
+          if (requestId) {
+            form.action += '?id=' + encodeURIComponent(requestId);
+          }
+
           const postUrl = `${form.action}`;
           fetch(postUrl, {
             method: 'POST',
