@@ -35,6 +35,10 @@ module SmartHealthCards
     my_js_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker]] }
     route(:get, '/qr-scanner-worker.min.js', my_js_worker_route_handler)
 
+    my_js_worker_map = File.read(File.join(__dir__, 'qr-scanner-worker.min.js.map'))
+    my_js_worker_map_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker_map]] }
+    route(:get, '/qr-scanner-worker.min.js.map', my_js_worker_map_route_handler)
+
     upload_html = File.read(File.join(__dir__, '../views/upload_qr_code.html'))
     upload_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [upload_html]] }
     route(:get, '/upload_qr_code', upload_html_route_handler)
