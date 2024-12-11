@@ -17,10 +17,10 @@
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <button id="start" class="button is-info" onclick="disableStartButton()">Start</button>
+              <button id="start" class="btn btn-secondary" onclick="disableStartButton()">Start</button>
             </div>
             <div class="level-item">
-              <button id="stop" class="button is-info" onclick="enableStartButton()" disabled>Stop</button>
+              <button id="stop" class="btn btn-secondary" onclick="enableStartButton()" disabled>Stop</button>
             </div>
           </div>
           <div class="level-right" id="multi-status-container">
@@ -79,8 +79,10 @@
       </div>
     </div>
 
-    <script type="module">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
 
+    <script type="module">
       import QrScanner from './qr-scanner.min.js';
 
       const healthCardPattern = /^shc:\/(?<multipleChunks>(?<chunkIndex>[0-9]+)\/(?<chunkCount>[0-9]+)\/)?[0-9]+$/;
