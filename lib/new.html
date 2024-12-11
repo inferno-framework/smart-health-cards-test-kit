@@ -10,32 +10,43 @@
       <h3>Scan a QR Code</h3>
       <p class="subtitle">Use device's camera to scan a QR code representing a Smart Health Card</p>
     </section>
-      <div class="notification is-warning is-light">
+      
+    <div>
+      <div class="field is-grouped">
+          <button id="start" class="btn btn-primary" onclick="disableStartButton()">Start</button>
+          <button id="stop" class="btn btn-primary" onclick="enableStartButton()" disabled>Stop</button>
       </div>
-    <div class="section">
-      <div class="container">
+      <div class="level-right" id="multi-status-container">
+      </div>
+
+      <video id="preview"></video>
+
+      <div class="notification is-success is-light" hidden id="success-notification">
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <button id="start" class="btn btn-secondary" onclick="disableStartButton()">Start</button>
-            </div>
-            <div class="level-item">
-              <button id="stop" class="btn btn-secondary" onclick="enableStartButton()" disabled>Stop</button>
+              <span class="icon is-large">
+                <i class="fa fa-check-circle fa-2x"></i>
+              </span>
+              <span class="is-size-4">QR code scanned successfully.</span>
             </div>
           </div>
-          <div class="level-right" id="multi-status-container">
+          <div class="level-right">
+            <div class="level-item">
+            </div>
           </div>
         </div>
-        <video id="preview"></video>
+      </div>
 
-        <div class="notification is-success is-light" hidden id="success-notification">
+      <div class="notification is-success is-light">
+        <form id="upload-qr-code" action="post_qr_code" accept-charset="UTF-8" method="post"></form>
           <div class="level">
             <div class="level-left">
               <div class="level-item">
                 <span class="icon is-large">
                   <i class="fa fa-check-circle fa-2x"></i>
                 </span>
-                <span class="is-size-4">QR code scanned successfully.</span>
+                <span class="is-size-4" id="qr-contents"></span>
               </div>
             </div>
             <div class="level-right">
@@ -43,36 +54,17 @@
               </div>
             </div>
           </div>
-        </div>
+        </form>
+      </div>
 
-        <div class="notification is-success is-light">
-          <form id="upload-qr-code" action="post_qr_code" accept-charset="UTF-8" method="post"></form>
-            <div class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <span class="icon is-large">
-                    <i class="fa fa-check-circle fa-2x"></i>
-                  </span>
-                  <span class="is-size-4" id="qr-contents"></span>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div class="notification is-danger is-light" hidden id="error-notification">
-          <div class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <span class="icon is-large">
-                  <i class="fa fa-times-circle fa-2x"></i>
-                </span>
-                <span class="is-size-4">QR code does not contain a SMART Health Card.</span>
-              </div>
+      <div class="notification is-danger is-light" hidden id="error-notification">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <span class="icon is-large">
+                <i class="fa fa-times-circle fa-2x"></i>
+              </span>
+              <span class="is-size-4">QR code does not contain a SMART Health Card.</span>
             </div>
           </div>
         </div>
