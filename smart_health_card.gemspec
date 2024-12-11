@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = 'inferno_template'
+  spec.name          = 'smart_health_cards_test_kit'
   spec.version       = '0.0.1'
   spec.authors       = ["Inferno Template"]
   # spec.email         = ['TODO']
@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   # spec.homepage      = 'TODO'
   spec.license       = 'Apache-2.0'
   spec.add_runtime_dependency 'inferno_core', '~> 0.4.38'
+  spec.add_runtime_dependency 'health_cards', '1.1.0'
   spec.add_development_dependency 'database_cleaner-sequel', '~> 1.8'
   spec.add_development_dependency 'factory_bot', '~> 6.1'
   spec.add_development_dependency 'rspec', '~> 3.10'
