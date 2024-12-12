@@ -2,6 +2,34 @@ module SmartHealthCards
   class SHCPayloadVerification < Inferno::Test
     id :shc_payload_verification_test
     title 'Verify the correct SHC payload'
+    description %(
+      Issuers SHALL ensure that the following constraints apply:
+      * JWS payload is compressed with the DEFLATE algorithm before being signed
+        (note, this should be “raw” DEFLATE compression, omitting any zlib or gz headers)
+
+      The type, and credentialSubject properties are added to the vc claim of the JWT.
+      The type values are defined in [Credential Types](https://terminology.smarthealth.cards/CodeSystem-health-card.html);
+      the https://smarthealth.cards#health-card SHALL be present; other types SHOULD
+      be included when they apply. Verifiers and other entities processing SMART Health Cards
+      SHALL ignore any additional type elements they do not understand. The issuer property is
+      represented by the registered JWT iss claim and the issuanceDate property is represented
+      by the registered JWT nbf (“not before”) claim (encoded as the number of seconds from
+      1970-01-01T00:00:00Z UTC, as specified by [RFC7519](https://tools.ietf.org/html/rfc7519))
+
+      For Health Cards that will be directly represented as QR codes, issuers SHALL ensure
+      that content is minified as follows:
+      * JWS payload `.vc.credentialSubject.fhirBundle` is created...
+        * without `Resource.id` elements
+        * without `Resource.meta` elements (or if present, `.meta.security` is included and
+          no other fields are included)
+        * without `DomainResource.text` elements
+        * without `CodeableConcept.text` elements
+        * without `Coding.display` elements
+        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs
+          (e.g., `{"fullUrl": "resource:0"}`)
+        * with `Reference.reference` populated with short `resource`-scheme URIs
+          (e.g., `{"patient": {"reference": "resource:0"}}`)
+    )
     input :credential_strings
     output :decompressed_payloads
 

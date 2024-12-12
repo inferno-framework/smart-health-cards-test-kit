@@ -15,7 +15,9 @@ module SmartHealthCards
     test do
       id :qr_code_scan_test
       title 'Scan QR Code'
-      description 'The health card can be scanned from QR code and is a valid JSON object.'
+      description %(
+        Issuers can represent an individual JWS inside a Health Card available as a QR code.
+      )
 
       # Assign a name to the incoming request so that it can be inspected by
       # other tests.
@@ -27,9 +29,13 @@ module SmartHealthCards
         wait(
           identifier: run_id,
           message: %(
-            [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
+            Tester can either scan a QR code using webcam (link 1) or upload a presaved QR code
+            from local system (link 2).
 
-            [Follow this link to upload QR code from a image file](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/upload_qr_code?id=#{run_id})
+            After a QR code is scanned or uploaded, testing will resume at the next test.
+
+            * [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
+            * [Follow this link to upload QR code from a saved image file](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/upload_qr_code?id=#{run_id})
           )
         )
       end
@@ -44,9 +50,11 @@ module SmartHealthCards
         * A segment encoded with bytes mode consisting of
           * the fixed string shc:/
           * plus (only if more than one chunk is required; note this feature is deprecated)
-            * decimal representation of "C" (e.g., 1 for the first chunk, 2 for the second chunk, and so on)
+            * decimal representation of "C" (e.g., 1 for the first chunk, 2 for the second chunk,
+              and so on)
             * plus the fixed string /
-            * plus decimal representation of "N" (e.g., 2 if there are two chunks in total, 3 if there three chunks in total, and so on)
+            * plus decimal representation of "N" (e.g., 2 if there are two chunks in total, 3 if
+              there three chunks in total, and so on)
             * plus the fixed string /
         * A segment encoded with numeric mode consisting of the characters 0-9.
       )
@@ -77,7 +85,10 @@ module SmartHealthCards
     test do
       id :qr_code_verifiable_credential_test
       title 'QR Code contains an array of Verifiable Credential strings'
-
+      description %(
+        Each JWS string that appears in the .verifiableCredential[] of a .smart-health-card file
+        can be represented as a QR code
+      )
       input :qr_code_content
       output :credential_strings
 
