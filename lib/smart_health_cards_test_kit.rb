@@ -23,7 +23,7 @@ module SmartHealthCards
       request.query_parameters['id']
     end
 
-    my_html = File.read(File.join(__dir__, 'new.html'))
+    my_html = File.read(File.join(__dir__, '../views/scan_qr_code.html'))
     my_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [my_html]] }
     route(:get, '/scan_qr_code', my_html_route_handler)
 
