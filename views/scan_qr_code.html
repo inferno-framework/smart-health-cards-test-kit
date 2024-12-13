@@ -10,7 +10,7 @@
       <h3>Scan a QR Code</h3>
       <p class="subtitle">Use device's camera to scan a QR code representing a Smart Health Card</p>
     </section>
-      
+
     <div>
       <div class="field is-grouped">
           <button id="start" class="btn btn-primary" onclick="disableStartButton()">Start</button>
@@ -75,7 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
 
     <script type="module">
-      import QrScanner from '../javascript/qr-scanner.min.js';
+      import QrScanner from './qr-scanner.min.js';
 
       const healthCardPattern = /^shc:\/(?<multipleChunks>(?<chunkIndex>[0-9]+)\/(?<chunkCount>[0-9]+)\/)?[0-9]+$/;
 
