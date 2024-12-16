@@ -15,7 +15,10 @@ module SmartHealthCards
     test do
       id :health_card_download_test
       title 'Health card can be downloaded'
-      description 'The health card can be downloaded and is a valid JSON object'
+      description %(
+        To facilitate User Retrieves Health Cards workflow, the issuer can include a
+        link to help the user download the credentials directly. Contents should be a JSON object.
+      )
       makes_request :shc_file_download
 
 
@@ -30,6 +33,11 @@ module SmartHealthCards
     test do
       id :content_type_test
       title 'Response contains correct Content-Type of application/smart-health-card'
+      description %(
+        The downloded file SHALL be provided with a MIME type of application/smart-health-card.
+        (e.g., web servers SHALL include Content-Type: application/smart-health-card as
+        an HTTP Response containing a Health Card)
+      )
       uses_request :shc_file_download
 
       run do
@@ -46,6 +54,9 @@ module SmartHealthCards
     test do
       id :file_extension_test
       title 'Health card is provided as a file download with a .smart-health-card extension'
+      description %(
+        The downloaded file SHALL be served with a .smart-health-card file extension.
+      )
       uses_request :shc_file_download
 
       run do
@@ -72,6 +83,9 @@ module SmartHealthCards
     test do
       id :verifiable_credential_test
       title 'Response contains an array of Verifiable Credential strings'
+      description %(
+        Contents of the downloaded file should be a JSON object containing an array of Verifiable Credential JWS strings.
+      )
       uses_request :shc_file_download
       output :credential_strings
 

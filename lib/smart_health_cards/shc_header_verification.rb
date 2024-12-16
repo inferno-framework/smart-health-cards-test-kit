@@ -3,6 +3,16 @@ module SmartHealthCards
   class SHCHeaderVerification < Inferno::Test
     id :shc_header_verification_test
     title 'Verify the correct SHC headers'
+    description %(
+      Issuers SHALL ensure that the following constraints apply at the time of issuance:
+
+      * JWS Header
+        * header includes `alg`: "ES256"
+        * header includes `zip`: "DEF"
+        * header includes `kid` equal to the base64url-encoded (see section 5 of [RFC4648]
+          (https://tools.ietf.org/html/rfc4648#section-5)) SHA-256 JWK Thumbprint of the key
+          (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    )
     input :credential_strings
     output :headers
 
