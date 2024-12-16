@@ -16,6 +16,11 @@ module SmartHealthCards
 
     test do
       title 'Server advertises health card support in its SMART configuration'
+      description %(
+        A SMART on FHIR Server capable of issuing VCs according to this specification SHALL
+        advertise its support by adding the health-cards capability to its /.well-known/smart-configuration
+        JSON file.
+      )
       id :smart_configuration_test
 
       run do
@@ -33,6 +38,9 @@ module SmartHealthCards
 
     test do
       title 'Server advertises $health-cards-issue operation support in its CapabilityStatement'
+      description %(
+
+      )
       id :capabilitystatement_test
 
       run do
@@ -56,6 +64,10 @@ module SmartHealthCards
 
     test do
       title 'Server returns a health card from the $health-cards-issue operation'
+      description %(
+        For a more seamless user experience when FHIR API connections are already in place,
+        results may also be conveyed through a FHIR API $health-cards-issue operation
+      )
       id :health_cards_issue_operation_test
       output :credential_strings
 
