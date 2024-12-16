@@ -23,19 +23,19 @@ module SmartHealthCards
       request.query_parameters['id']
     end
 
-    my_html = File.read(File.join(__dir__, 'new.html'))
+    my_html = File.read(File.join(__dir__, '../views/scan_qr_code.html'))
     my_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [my_html]] }
     route(:get, '/scan_qr_code', my_html_route_handler)
 
-    my_js = File.read(File.join(__dir__, 'qr-scanner.min.js'))
+    my_js = File.read(File.join(__dir__, '../javascript/qr-scanner.min.js'))
     my_js_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js]] }
     route(:get, '/qr-scanner.min.js', my_js_route_handler)
 
-    my_js_worker = File.read(File.join(__dir__, 'qr-scanner-worker.min.js'))
+    my_js_worker = File.read(File.join(__dir__, '../javascript/qr-scanner-worker.min.js'))
     my_js_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker]] }
     route(:get, '/qr-scanner-worker.min.js', my_js_worker_route_handler)
 
-    my_js_worker_map = File.read(File.join(__dir__, 'qr-scanner-worker.min.js.map'))
+    my_js_worker_map = File.read(File.join(__dir__, '../javascript/qr-scanner-worker.min.js.map'))
     my_js_worker_map_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker_map]] }
     route(:get, '/qr-scanner-worker.min.js.map', my_js_worker_map_route_handler)
 
