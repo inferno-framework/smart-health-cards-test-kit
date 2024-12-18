@@ -8,7 +8,7 @@ module SmartHealthCards
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
       decompressed_signature_array = []
-      
+
       credential_strings.split(',').each do |credential|
         card = HealthCards::JWS.from_jws(credential)
 
@@ -33,8 +33,6 @@ module SmartHealthCards
         #TODO: wip. Commiting now so I don't lose progress
 
         get(key_set_url)
-
-        binding.pry
 
         assert_response_status(200)
         assert_valid_json(response[:body])
