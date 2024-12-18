@@ -7,7 +7,6 @@ module SmartHealthCards
     id :shc_signature_verification_test
     title 'Verify the correct SHC signature'
     input :credential_strings
-    output :decompressed_signatures #TODO record output
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
