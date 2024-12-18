@@ -40,12 +40,6 @@ RSpec.describe SmartHealthCards::SHCSignatureVerification do
       credential_strings = 'eyJ6aXAiOiJERUYiLCJhbGciOiJFUzI1NiIsImtpZCI6Ik84MGVzNUxhdGY3S0p5YW1zSndmZ210LS0tMEI1Ym55ZDZxeHVJOTloS1EifQ.fZDNTsMwEITfZbkmaZxEgviIeAAkfg5FPWycbWPkn8p2KpUq786agEBI4NvaM59n9gI6RpAwpXSUm43xCs3kY5JtXddQgBv2IMV12_Q3XVN3BZwUyAuk85FAvnzYIvuixZAmQpOmSmEY49U6lHlgzN865U96FP2_Gm3t7PQbJu0d7ApQgUZySaN5mIdXUilH2k86PFOIWSOhq-pKMDTf3s5uNPQdG5Q3hl1ZWQCDwpm7MGE25ikYFgSKfg6KZF7B15ABDi2tWrTasA22miy6DDroE7m8lK0PqEeE3cJZB81l7jDlf0Xf9qUQpWh-YB_XTPfcjqPAkk2_3j4LLHzeAQ.ynqPcijxmj63lYd2ECJvo6iLWqICu-QC-IG5MmbC0Q1M61AH-WYlKptzd9gWGnLEpbiBqohvKoBfsJnsZ0kWTQ'
 
       stub_request(:get, "http://localhost:3000/.well-known/jwks.json").
-         with(
-           headers: {
-          'Accept'=>'*/*',
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Faraday v1.10.3'
-           }).
          to_return(status: 200, body: jwks.to_json, headers: {})
 
       result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })
