@@ -29,9 +29,6 @@ module SmartHealthCards
 
         key_set_url = "#{iss}/.well-known/jwks.json"
 
-        #binding.pry
-        #TODO: wip. Commiting now so I don't lose progress
-
         get(key_set_url)
 
         assert_response_status(200)
