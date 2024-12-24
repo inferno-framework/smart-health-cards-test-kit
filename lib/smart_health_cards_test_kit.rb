@@ -7,9 +7,8 @@ module SmartHealthCards
     id :smart_health_cards_test_suite
     title 'SMART Health Cards'
     description %(
-      The US Core Test Kit tests systems for their conformance to the [SMART Health Cards Framework]
-      (https://spec.smarthealth.cards/) and [SMART Health Cards and Links FHIR Implementation Guide
-      v1.0.0-ballot](https://build.fhir.org/ig/HL7/smart-health-cards-and-links/).
+      The US Core Test Kit tests systems for their conformance to the
+      [SMART Health Cards Framework v1.4.0](https://spec.smarthealth.cards/)
     )
 
     # All FHIR validation requsets will use this FHIR validator
