@@ -1,5 +1,5 @@
-require 'health_cards'
 require 'json'
+require_relative 'util/chunking_utils'
 require_relative 'shc_payload_verification'
 require_relative 'shc_header_verification'
 require_relative 'shc_fhir_validation'
@@ -95,7 +95,8 @@ module SmartHealthCards
       run do
         skip_if qr_code_content.blank?, 'No QR code chunks received'
 
-        vc = HealthCards::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
+        vc = SmartHealthCards::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
+
         assert vc.present?, 'QR code does not have valid verifiable credential string'
 
         output credential_strings: vc

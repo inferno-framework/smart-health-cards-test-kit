@@ -1,4 +1,3 @@
-require 'health_cards'
 require 'json'
 require_relative 'shc_header_verification'
 require_relative 'shc_fhir_validation'

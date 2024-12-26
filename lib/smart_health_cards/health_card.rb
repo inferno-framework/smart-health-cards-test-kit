@@ -1,5 +1,3 @@
-require 'health_cards'
-
 module SmartHealthCards
   module HealthCard
     def payload_from_jws(jws)

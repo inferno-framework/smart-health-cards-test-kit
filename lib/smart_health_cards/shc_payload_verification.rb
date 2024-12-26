@@ -1,5 +1,3 @@
-require_relative 'health_card'
-
 module SmartHealthCards
   class SHCPayloadVerification < Inferno::Test
     include HealthCard
@@ -42,7 +40,7 @@ module SmartHealthCards
       decompressed_payload_array = []
 
       credential_strings.split(',').each do |credential|
-        jws = HealthCards::JWS.from_jws(credential)
+        jws = SmartHealthCards::JWS.from_jws(credential)
         payload = payload_from_jws(jws)
 
         warning do

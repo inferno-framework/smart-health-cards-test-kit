@@ -43,6 +43,7 @@ RSpec.describe SmartHealthCards::SHCSignatureVerification do
          to_return(status: 200, body: jwks.to_json, headers: {})
 
       result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })
+
       expect(result.result).to eq('pass')
     end
 
