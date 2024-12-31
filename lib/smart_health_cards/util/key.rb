@@ -22,11 +22,22 @@ module SmartHealthCards
     # @return [SmartHealthCards::Key] The key represented by the JWK
     def self.from_jwk(jwk_key)
       jwk_key = jwk_key.transform_keys(&:to_sym)
-      group = OpenSSL::PKey::EC::Group.new('prime256v1')
-      key = OpenSSL::PKey::EC.new(group)
-      key.private_key = OpenSSL::BN.new(Base64.urlsafe_decode64(jwk_key[:d]), 2) if jwk_key[:d]
+      curvename = 'prime256v1'
+      group = OpenSSL::PKey::EC::Group.new(curvename)
       public_key_bn = ['04'].pack('H*') + Base64.urlsafe_decode64(jwk_key[:x]) + Base64.urlsafe_decode64(jwk_key[:y])
-      key.public_key = OpenSSL::PKey::EC::Point.new(group, OpenSSL::BN.new(public_key_bn, 2))
+      point = OpenSSL::PKey::EC::Point.new(group, OpenSSL::BN.new(public_key_bn, 2))
+
+      asn1 = OpenSSL::ASN1::Sequence([
+        OpenSSL::ASN1::Sequence([
+          OpenSSL::ASN1::ObjectId("id-ecPublicKey"),
+          OpenSSL::ASN1::ObjectId(curvename)
+        ]),
+        OpenSSL::ASN1::BitString(point.to_octet_string(:uncompressed))
+      ])
+
+      key = OpenSSL::PKey::EC.new(asn1.to_der)
+      key.private_key = OpenSSL::BN.new(Base64.urlsafe_decode64(jwk_key[:d]), 2) if jwk_key[:d]
+      
       key.private_key? ? SmartHealthCards::PrivateKey.new(key) : SmartHealthCards::PublicKey.new(key)
     end
 
