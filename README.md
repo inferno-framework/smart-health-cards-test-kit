@@ -1,26 +1,28 @@
-# Inferno Template Test Kit
+# Inferno Smart Health Card Test Kit
 
-Inferno template [Inferno](https://github.com/inferno-community/inferno-core) Test Kit
-for FHIR testing.
+This is an [Inferno](https://inferno-framework.github.io/) test kit
+for the SMART Health Cards Framework [v1.4.0](https://spec.smarthealth.cards/)
 
-## Instructions for Developing Your Test Kit
+## Instructions
 
-Refer to the Inferno documentation for information about [setting up
-your development environment and running your Test Kit](https://inferno-framework.github.io/docs/getting-started/).
+It is highly recommended that you use [Docker](https://www.docker.com/) to run
+these tests.  This test kit requires at least 10 GB of memory are available to Docker.
 
-More information about what is included in this repository can be [found here](https://inferno-framework.github.io/docs/getting-started/repo-layout-and-organization.html).
+- Clone this repo.
+- Run `setup.sh` in this repo.
+- Run `run.sh` in this repo.
+- Navigate to `http://localhost`. The SMART Health Cards test suite will be available.
+
+See the [Inferno Documentation](https://inferno-framework.github.io/docs/)
+for more information on running Inferno.
 
 ## Documentation
 - [Inferno documentation](https://inferno-framework.github.io/docs/)
 - [Ruby API documentation](https://inferno-framework.github.io/inferno-core/docs/)
 - [JSON API documentation](https://inferno-framework.github.io/inferno-core/api-docs/)
 
-## Example Inferno Test Kits
-
-A list of all Test Kits registered with the Inferno Team can be found on the [Test Kit Registry](https://inferno-framework.github.io/community/test-kits.html) page.
-
 ## License
-Copyright 2024 TODO
+Copyright 2024
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
