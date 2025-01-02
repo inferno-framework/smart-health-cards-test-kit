@@ -10,9 +10,9 @@ module SmartHealthCards
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
-      decompressed_signature_array = []
 
       credential_strings.split(',').each do |credential|
+
         jws = JWS.from_jws(credential)
         payload = payload_from_jws(jws)
         iss = payload['iss']

@@ -32,19 +32,35 @@ RSpec.describe SmartHealthCards::SHCSignatureVerification do
     Inferno::TestRunner.new(test_session: test_session, test_run: test_run).run(runnable)
   end
 
+  
   describe 'health_card_signature_test' do
     let(:test) { group.tests.find { |t| t.id.include?('shc_signature_verification_test')} }
     let(:url) { 'http://example.com/hc' }
-
+  
     it 'passes if the JWS signature is correct' do
       credential_strings = 'eyJ6aXAiOiJERUYiLCJhbGciOiJFUzI1NiIsImtpZCI6Ik84MGVzNUxhdGY3S0p5YW1zSndmZ210LS0tMEI1Ym55ZDZxeHVJOTloS1EifQ.fZDNTsMwEITfZbkmaZxEgviIeAAkfg5FPWycbWPkn8p2KpUq786agEBI4NvaM59n9gI6RpAwpXSUm43xCs3kY5JtXddQgBv2IMV12_Q3XVN3BZwUyAuk85FAvnzYIvuixZAmQpOmSmEY49U6lHlgzN865U96FP2_Gm3t7PQbJu0d7ApQgUZySaN5mIdXUilH2k86PFOIWSOhq-pKMDTf3s5uNPQdG5Q3hl1ZWQCDwpm7MGE25ikYFgSKfg6KZF7B15ABDi2tWrTasA22miy6DDroE7m8lK0PqEeE3cJZB81l7jDlf0Xf9qUQpWh-YB_XTPfcjqPAkk2_3j4LLHzeAQ.ynqPcijxmj63lYd2ECJvo6iLWqICu-QC-IG5MmbC0Q1M61AH-WYlKptzd9gWGnLEpbiBqohvKoBfsJnsZ0kWTQ'
+  
+      stub_request(:get, "http://localhost:3000/.well-known/jwks.json").
+         to_return(status: 200, body: jwks.to_json, headers: {})
+  
+      result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })
+  
+      expect(result.result).to eq('pass')
+    end
+
+    it 'passes if a comma-separated list of jws all contain valid signatures' do
+      credential_strings = 'eyJ6aXAiOiJERUYiLCJhbGciOiJFUzI1NiIsImtpZCI6Ik84MGVzNUxhdGY3S0p5YW1zSndmZ210LS0tMEI1Ym55ZDZxeHVJOTloS1EifQ.fZDNTsMwEITfZbkmaZxEgviIeAAkfg5FPWycbWPkn8p2KpUq786agEBI4NvaM59n9gI6RpAwpXSUm43xCs3kY5JtXddQgBv2IMV12_Q3XVN3BZwUyAuk85FAvnzYIvuixZAmQpOmSmEY49U6lHlgzN865U96FP2_Gm3t7PQbJu0d7ApQgUZySaN5mIdXUilH2k86PFOIWSOhq-pKMDTf3s5uNPQdG5Q3hl1ZWQCDwpm7MGE25ikYFgSKfg6KZF7B15ABDi2tWrTasA22miy6DDroE7m8lK0PqEeE3cJZB81l7jDlf0Xf9qUQpWh-YB_XTPfcjqPAkk2_3j4LLHzeAQ.ynqPcijxmj63lYd2ECJvo6iLWqICu-QC-IG5MmbC0Q1M61AH-WYlKptzd9gWGnLEpbiBqohvKoBfsJnsZ0kWTQ,eyJ6aXAiOiJERUYiLCJhbGciOiJFUzI1NiIsImtpZCI6Ik84MGVzNUxhdGY3S0p5YW1zSndmZ210LS0tMEI1Ym55ZDZxeHVJOTloS1EifQ.fZDNTsMwEITfZbkmaZxEgviIeAAkfg5FPWycbWPkn8p2KpUq786agEBI4NvaM59n9gI6RpAwpXSUm43xCs3kY5JtXddQgBv2IMV12_Q3XVN3BZwUyAuk85FAvnzYIvuixZAmQpOmSmEY49U6lHlgzN865U96FP2_Gm3t7PQbJu0d7ApQgUZySaN5mIdXUilH2k86PFOIWSOhq-pKMDTf3s5uNPQdG5Q3hl1ZWQCDwpm7MGE25ikYFgSKfg6KZF7B15ABDi2tWrTasA22miy6DDroE7m8lK0PqEeE3cJZB81l7jDlf0Xf9qUQpWh-YB_XTPfcjqPAkk2_3j4LLHzeAQ.ynqPcijxmj63lYd2ECJvo6iLWqICu-QC-IG5MmbC0Q1M61AH-WYlKptzd9gWGnLEpbiBqohvKoBfsJnsZ0kWTQ'
 
       stub_request(:get, "http://localhost:3000/.well-known/jwks.json").
          to_return(status: 200, body: jwks.to_json, headers: {})
-
+      
       result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })
-
       expect(result.result).to eq('pass')
+    end
+
+    it 'raises an error if the vc is not a valid jws, and therefore does not contain a valid signature' do
+      credential_strings = 'asdf'
+      expect {result = run(test, { file_download_url: url, url: url, credential_strings: credential_strings })}.to raise_error()
     end
 
   end
