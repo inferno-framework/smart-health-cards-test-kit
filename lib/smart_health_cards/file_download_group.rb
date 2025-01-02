@@ -1,8 +1,8 @@
-require 'health_cards'
 require 'json'
-require_relative 'shc_payload_verification'
 require_relative 'shc_header_verification'
 require_relative 'shc_fhir_validation'
+require_relative 'shc_payload_verification'
+require_relative 'shc_signature_verification'
 
 module SmartHealthCards
   class FileDownloadGroup < Inferno::TestGroup
@@ -24,7 +24,6 @@ module SmartHealthCards
 
       run do
         get(file_download_url, name: :shc_file_download)
-
         assert_response_status(200)
         assert_valid_json(response[:body])
       end
@@ -108,6 +107,8 @@ module SmartHealthCards
     end
 
     test from: :shc_header_verification_test
+
+    test from: :shc_signature_verification_test
 
     test from: :shc_payload_verification_test
 

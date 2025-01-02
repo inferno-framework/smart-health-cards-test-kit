@@ -1,5 +1,5 @@
 RSpec.describe SmartHealthCards::SHCHeaderVerification do
-  let(:suite) { Inferno::Repositories::TestSuites.new.find('smart_health_cards_test_suite') } 
+  let(:suite) { Inferno::Repositories::TestSuites.new.find('smart_health_cards_test_suite') }
   let(:session_data_repo) { Inferno::Repositories::SessionData.new }
   let(:runner) { Inferno::TestRunner.new(test_session: test_session, test_run: test_run) }
   let(:test_session) do
@@ -18,7 +18,7 @@ RSpec.describe SmartHealthCards::SHCHeaderVerification do
   end
 
   describe 'health_card_header_test' do
-    let(:test) { group.tests[4] }
+    let(:test) { group.tests.find{ |t| t.id.include?('shc_header_verification_test')} }
     let(:url) { 'http://example.com/hc' }
 
     it 'passes if the decoded jws contains a valid header' do

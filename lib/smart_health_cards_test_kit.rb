@@ -1,3 +1,14 @@
+require_relative 'smart_health_cards/util/encoding'
+require_relative 'smart_health_cards/util/jws'
+require_relative 'smart_health_cards/util/key'
+require_relative 'smart_health_cards/util/key_set'
+require_relative 'smart_health_cards/util/private_key'
+require_relative 'smart_health_cards/util/public_key'
+require_relative 'smart_health_cards/util/verification'
+require_relative 'smart_health_cards/util/verifier'
+
+require_relative 'smart_health_cards/health_card'
+
 require_relative 'smart_health_cards/file_download_group'
 require_relative 'smart_health_cards/qr_code_group'
 require_relative 'smart_health_cards/fhir_operation_group'
@@ -49,7 +60,7 @@ module SmartHealthCards
 
     # Tests and TestGroups
     group from: :shc_file_download_group
-    group from: :shc_qr_code_group
     group from: :shc_fhir_operation_group
+    group from: :shc_qr_code_group
   end
 end

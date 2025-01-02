@@ -2,8 +2,9 @@ PATH
   remote: .
   specs:
     smart_health_cards_test_kit (0.0.1)
-      health_cards (= 1.1.0)
       inferno_core (~> 0.4.38)
+      rqrcode
+      rqrcode_core (>= 1.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -129,10 +130,6 @@ GEM
       dry-transformer (~> 1.0, < 2)
     hansi (0.2.1)
     hashdiff (1.1.0)
-    health_cards (1.1.0)
-      fhir_models (>= 4.0.0)
-      rqrcode
-      rqrcode_core (>= 1.2.0)
     http-accept (1.7.0)
     http-cookie (1.0.6)
       domain_name (~> 0.5)
