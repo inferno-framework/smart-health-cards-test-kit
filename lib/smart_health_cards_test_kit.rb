@@ -36,26 +36,25 @@ module SmartHealthCardsTestKit
       request.query_parameters['id']
     end
 
-    my_html = File.read(File.join(__dir__, '../views/scan_qr_code.html'))
-    my_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [my_html]] }
-    route(:get, '/scan_qr_code', my_html_route_handler)
+    scan_qr_code_html = File.read(File.join(__dir__, './smart_health_cards_test_kit/views/scan_qr_code.html'))
+    scan_qr_code_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [scan_qr_code_html]] }
+    route(:get, '/scan_qr_code', scan_qr_code_html_route_handler)
 
-    my_js = File.read(File.join(__dir__, '../javascript/qr-scanner.min.js'))
-    my_js_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js]] }
-    route(:get, '/qr-scanner.min.js', my_js_route_handler)
+    qr_scanner = File.read(File.join(__dir__, './smart_health_cards_test_kit/javascript/qr-scanner.min.js'))
+    qr_scanner_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [qr_scanner]] }
+    route(:get, '/qr-scanner.min.js', qr_scanner_route_handler)
 
-    my_js_worker = File.read(File.join(__dir__, '../javascript/qr-scanner-worker.min.js'))
-    my_js_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker]] }
-    route(:get, '/qr-scanner-worker.min.js', my_js_worker_route_handler)
+    qr_scanner_worker = File.read(File.join(__dir__, './smart_health_cards_test_kit/javascript/qr-scanner-worker.min.js'))
+    qr_scanner_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [qr_scanner_worker]] }
+    route(:get, '/qr-scanner-worker.min.js', qr_scanner_worker_route_handler)
 
-    my_js_worker_map = File.read(File.join(__dir__, '../javascript/qr-scanner-worker.min.js.map'))
-    my_js_worker_map_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [my_js_worker_map]] }
-    route(:get, '/qr-scanner-worker.min.js.map', my_js_worker_map_route_handler)
-
-    upload_html = File.read(File.join(__dir__, '../views/upload_qr_code.html'))
+    upload_html = File.read(File.join(__dir__, './smart_health_cards_test_kit/views/upload_qr_code.html'))
     upload_html_route_handler = proc { [200, { 'Content-Type' => 'text/html' }, [upload_html]] }
     route(:get, '/upload_qr_code', upload_html_route_handler)
 
+    # js_qr = File.read(File.join(__dir__, './smart_health_cards_test_kit/javascript/jsqr.js'))
+    # js_qr_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [js_qr]] }
+    # route(:get, '/jsqr.js', js_qr_route_handler)
 
     # Tests and TestGroups
     group from: :shc_file_download_group
