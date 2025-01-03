@@ -1,6 +1,6 @@
-require_relative 'util/verifier'
+require_relative 'utils/verifier'
 
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class SHCSignatureVerification < Inferno::Test
     include HealthCard
 
@@ -13,7 +13,7 @@ module SmartHealthCards
 
       credential_strings.split(',').each do |credential|
 
-        jws = JWS.from_jws(credential)
+        jws = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential)
         payload = payload_from_jws(jws)
         iss = payload['iss']
 
@@ -39,7 +39,7 @@ module SmartHealthCards
         key_set = JSON.parse(response[:body])
 
         public_key = key_set['keys'].find { |key| key['kid'] == jws.kid }
-        key_object = SmartHealthCards::Key.from_jwk(public_key)
+        key_object = SmartHealthCardsTestKit::Utils::Key.from_jwk(public_key)
 
         assert public_key.present?, "Key set did not contain a key with a `kid` of #{jws.kid}"
 
@@ -60,7 +60,7 @@ module SmartHealthCards
                  "Received: '#{public_key['kid']}', Expected: '#{key_object.kid}'"
         end
 
-        verifier = SmartHealthCards::Verifier.new(keys: key_object, resolve_keys: false)
+        verifier = SmartHealthCardsTestKit::Utils::Verifier.new(keys: key_object, resolve_keys: false)
 
         begin
           assert verifier.verify(jws), 'JWS signature invalid'

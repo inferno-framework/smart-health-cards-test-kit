@@ -1,10 +1,4 @@
-require 'json'
-require_relative 'shc_header_verification'
-require_relative 'shc_fhir_validation'
-require_relative 'shc_payload_verification'
-require_relative 'shc_signature_verification'
-
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class FileDownloadGroup < Inferno::TestGroup
     id :shc_file_download_group
     title 'Download and validate a health card via file download'

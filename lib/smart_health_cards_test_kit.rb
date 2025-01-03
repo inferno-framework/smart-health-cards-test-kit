@@ -1,19 +1,18 @@
-require_relative 'smart_health_cards/util/encoding'
-require_relative 'smart_health_cards/util/jws'
-require_relative 'smart_health_cards/util/key'
-require_relative 'smart_health_cards/util/key_set'
-require_relative 'smart_health_cards/util/private_key'
-require_relative 'smart_health_cards/util/public_key'
-require_relative 'smart_health_cards/util/verification'
-require_relative 'smart_health_cards/util/verifier'
+require 'json'
 
-require_relative 'smart_health_cards/health_card'
+require_relative 'smart_health_cards_test_kit/utils/jws'
+require_relative 'smart_health_cards_test_kit/health_card'
 
-require_relative 'smart_health_cards/file_download_group'
-require_relative 'smart_health_cards/qr_code_group'
-require_relative 'smart_health_cards/fhir_operation_group'
+require_relative 'smart_health_cards_test_kit/shc_fhir_validation'
+require_relative 'smart_health_cards_test_kit/shc_header_verification'
+require_relative 'smart_health_cards_test_kit/shc_payload_verification'
+require_relative 'smart_health_cards_test_kit/shc_signature_verification'
 
-module SmartHealthCards
+require_relative 'smart_health_cards_test_kit/file_download_group'
+require_relative 'smart_health_cards_test_kit/qr_code_group'
+require_relative 'smart_health_cards_test_kit/fhir_operation_group'
+
+module SmartHealthCardsTestKit
   class Suite < Inferno::TestSuite
     id :smart_health_cards_test_suite
     title 'SMART Health Cards'

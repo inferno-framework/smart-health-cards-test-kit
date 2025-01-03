@@ -1,4 +1,4 @@
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class SHCHeaderVerification < Inferno::Test
     include HealthCard
 
@@ -21,7 +21,7 @@ module SmartHealthCards
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
       header_array = [];
       credential_strings.split(',').each do |credential|
-        header = SmartHealthCards::JWS.from_jws(credential).header
+        header = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential).header
         header_array.append(header)
         assert header['zip'] == 'DEF', "Expected 'zip' header to equal 'DEF', but found '#{header['zip']}'"
         assert header['alg'] == 'ES256', "Expected 'alg' header to equal 'ES256', but found '#{header['alg']}'"

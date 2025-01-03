@@ -1,10 +1,6 @@
-require 'json'
-require_relative 'util/chunking_utils'
-require_relative 'shc_payload_verification'
-require_relative 'shc_header_verification'
-require_relative 'shc_fhir_validation'
+require_relative 'utils/chunking_utils'
 
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class QrCodeGroup < Inferno::TestGroup
     id :shc_qr_code_group
     title 'Download and validate a health card via QR code'
@@ -95,7 +91,7 @@ module SmartHealthCards
       run do
         skip_if qr_code_content.blank?, 'No QR code chunks received'
 
-        vc = SmartHealthCards::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
+        vc = SmartHealthCardsTestKit::Utils::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
 
         assert vc.present?, 'QR code does not have valid verifiable credential string'
 
