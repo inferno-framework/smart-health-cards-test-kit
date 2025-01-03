@@ -48,7 +48,7 @@ module SmartHealthCardsTestKit
     qr_scanner_worker_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [qr_scanner_worker]] }
     route(:get, '/qr-scanner-worker.min.js', qr_scanner_worker_route_handler)
 
-    js_qr = File.read(File.join(__dir__, './smart_health_cards_test_kit/javascript/jsqr.js'))
+    js_qr = File.read(File.join(__dir__, './smart_health_cards_test_kit/javascript/jsQR.js'))
     js_qr_route_handler = proc { [200, { 'Content-Type' => 'text/javascript' }, [js_qr]] }
     route(:get, '/jsqr.js', js_qr_route_handler)
 
