@@ -1,8 +1,4 @@
-require_relative 'shc_payload_verification'
-require_relative 'shc_header_verification'
-require_relative 'shc_fhir_validation'
-
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class FHIROperation < Inferno::TestGroup
     id :shc_fhir_operation_group
     title 'Download and validate a health card via FHIR $health-cards-issue operation'

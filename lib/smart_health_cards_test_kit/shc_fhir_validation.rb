@@ -1,4 +1,4 @@
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class SHCFHIRValidation < Inferno::Test
     include HealthCard
 
@@ -13,7 +13,7 @@ module SmartHealthCards
       bundle_array = []
 
       credential_strings.split(',').each do |credential|
-        jws = SmartHealthCards::JWS.from_jws(credential)
+        jws = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential)
         payload = payload_from_jws(jws)
 
         vc = payload['vc']
