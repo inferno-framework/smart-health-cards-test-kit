@@ -1,5 +1,7 @@
 require 'json'
 
+require_relative 'smart_health_cards_test_kit/version'
+
 require_relative 'smart_health_cards_test_kit/utils/jws'
 require_relative 'smart_health_cards_test_kit/health_card'
 
@@ -13,13 +15,14 @@ require_relative 'smart_health_cards_test_kit/qr_code_group'
 require_relative 'smart_health_cards_test_kit/fhir_operation_group'
 
 module SmartHealthCardsTestKit
-  class Suite < Inferno::TestSuite
-    id :smart_health_cards_test_suite
+  class SmartHealthCardsTestSuite < Inferno::TestSuite
+    id :smart_health_cards
     title 'SMART Health Cards'
     description %(
       The US Core Test Kit tests systems for their conformance to the
       [SMART Health Cards Framework v1.4.0](https://spec.smarthealth.cards/)
     )
+    version VERSION
 
     # All FHIR validation requsets will use this FHIR validator
     fhir_resource_validator do
