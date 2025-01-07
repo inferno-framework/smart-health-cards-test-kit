@@ -30,8 +30,8 @@ module SmartHealthCardsTestKit
 
             After a QR code is scanned or uploaded, testing will resume at the next test.
 
-            * [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
-            * [Follow this link to upload QR code from a saved image file](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/upload_qr_code?id=#{run_id})
+            * [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards/scan_qr_code?id=#{run_id}).
+            * [Follow this link to upload QR code from a saved image file](#{Inferno::Application['base_url']}/custom/smart_health_cards/upload_qr_code?id=#{run_id})
           )
         )
       end
