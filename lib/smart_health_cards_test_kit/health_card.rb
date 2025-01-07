@@ -1,4 +1,4 @@
-module SmartHealthCards
+module SmartHealthCardsTestKit
   module HealthCard
     def payload_from_jws(jws)
       return nil unless jws.present?

@@ -1,9 +1,9 @@
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class SHCPayloadVerification < Inferno::Test
     include HealthCard
 
     id :shc_payload_verification_test
-    title 'Verify the correct SHC payload'
+    title 'Verifiable Credential string has correct JWS Payload'
     description %(
       Issuers SHALL ensure that the following constraints apply:
       * JWS payload is compressed with the DEFLATE algorithm before being signed
@@ -40,7 +40,7 @@ module SmartHealthCards
       decompressed_payload_array = []
 
       credential_strings.split(',').each do |credential|
-        jws = SmartHealthCards::JWS.from_jws(credential)
+        jws = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential)
         payload = payload_from_jws(jws)
 
         warning do

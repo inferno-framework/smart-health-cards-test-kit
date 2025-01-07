@@ -1,10 +1,6 @@
-require 'json'
-require_relative 'util/chunking_utils'
-require_relative 'shc_payload_verification'
-require_relative 'shc_header_verification'
-require_relative 'shc_fhir_validation'
+require_relative 'utils/chunking_utils'
 
-module SmartHealthCards
+module SmartHealthCardsTestKit
   class QrCodeGroup < Inferno::TestGroup
     id :shc_qr_code_group
     title 'Download and validate a health card via QR code'
@@ -34,8 +30,8 @@ module SmartHealthCards
 
             After a QR code is scanned or uploaded, testing will resume at the next test.
 
-            * [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/scan_qr_code?id=#{run_id}).
-            * [Follow this link to upload QR code from a saved image file](#{Inferno::Application['base_url']}/custom/smart_health_cards_test_suite/upload_qr_code?id=#{run_id})
+            * [Follow this link to scan QR code](#{Inferno::Application['base_url']}/custom/smart_health_cards/scan_qr_code?id=#{run_id}).
+            * [Follow this link to upload QR code from a saved image file](#{Inferno::Application['base_url']}/custom/smart_health_cards/upload_qr_code?id=#{run_id})
           )
         )
       end
@@ -95,7 +91,7 @@ module SmartHealthCards
       run do
         skip_if qr_code_content.blank?, 'No QR code chunks received'
 
-        vc = SmartHealthCards::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
+        vc = SmartHealthCardsTestKit::Utils::ChunkingUtils.qr_chunks_to_jws([qr_code_content])
 
         assert vc.present?, 'QR code does not have valid verifiable credential string'
 
@@ -103,13 +99,9 @@ module SmartHealthCards
       end
     end
 
-
     test from: :shc_header_verification_test
-
-    test from: :shc_signature_verification_test
-
     test from: :shc_payload_verification_test
-
+    test from: :shc_signature_verification_test
     test from: :shc_fhir_validation_test
   end
 end

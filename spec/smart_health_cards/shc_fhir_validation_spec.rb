@@ -1,5 +1,5 @@
-RSpec.describe SmartHealthCards::SHCFHIRValidation do
-  let(:suite) { Inferno::Repositories::TestSuites.new.find('smart_health_cards_test_suite') }
+RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
+  let(:suite) { Inferno::Repositories::TestSuites.new.find('smart_health_cards') }
   let(:session_data_repo) { Inferno::Repositories::SessionData.new }
   let(:runner) { Inferno::TestRunner.new(test_session: test_session, test_run: test_run) }
   let(:test_session) do
