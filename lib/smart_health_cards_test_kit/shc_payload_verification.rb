@@ -3,7 +3,7 @@ module SmartHealthCardsTestKit
     include HealthCard
 
     id :shc_payload_verification_test
-    title 'Verify the correct SHC payload'
+    title 'Verifiable Credential string has correct JWS Payload'
     description %(
       Issuers SHALL ensure that the following constraints apply:
       * JWS payload is compressed with the DEFLATE algorithm before being signed

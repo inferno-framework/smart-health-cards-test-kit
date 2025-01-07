@@ -3,7 +3,7 @@ module SmartHealthCardsTestKit
     include HealthCard
 
     id :shc_header_verification_test
-    title 'Verify the correct SHC headers'
+    title 'Verifiable Credential string has correct JWS Header'
     description %(
       Issuers SHALL ensure that the following constraints apply at the time of issuance:
 

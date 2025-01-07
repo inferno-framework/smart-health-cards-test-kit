@@ -3,7 +3,10 @@ module SmartHealthCardsTestKit
     include HealthCard
 
     id :shc_fhir_validation_test
-    title 'Smart Health Card payloads conform to the FHIR Bundle Profile'
+    title 'SMART Health Card payload conforms to the FHIR Bundle Profile'
+    description %(
+      SMART Health Card payload SHALL be a valid FHIR Bundle resource
+    )
     input :credential_strings
     output :fhir_bundles
 

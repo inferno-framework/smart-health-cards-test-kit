@@ -99,13 +99,9 @@ module SmartHealthCardsTestKit
       end
     end
 
-
     test from: :shc_header_verification_test
-
-    test from: :shc_signature_verification_test
-
     test from: :shc_payload_verification_test
-
+    test from: :shc_signature_verification_test
     test from: :shc_fhir_validation_test
   end
 end

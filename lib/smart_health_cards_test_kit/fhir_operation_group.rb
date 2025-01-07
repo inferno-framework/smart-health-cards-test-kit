@@ -35,9 +35,12 @@ module SmartHealthCardsTestKit
     test do
       title 'Server advertises $health-cards-issue operation support in its CapabilityStatement'
       description %(
-
+        A SMART on FHIR Server capable of issuing VCs according to this specification SHOULD
+        advertise its support of $health-cards-issue operation by adding the operation to its
+        CapabilityStatement.
       )
       id :capabilitystatement_test
+      optional
 
       run do
         fhir_get_capability_statement
@@ -95,11 +98,8 @@ module SmartHealthCardsTestKit
     end
 
     test from: :shc_header_verification_test
-
-    test from: :shc_signature_verification_test
-
     test from: :shc_payload_verification_test
-
+    test from: :shc_signature_verification_test
     test from: :shc_fhir_validation_test
   end
 end
