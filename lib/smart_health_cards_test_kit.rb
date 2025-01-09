@@ -19,10 +19,24 @@ module SmartHealthCardsTestKit
     id :smart_health_cards
     title 'SMART Health Cards'
     description %(
-      The US Core Test Kit tests systems for their conformance to the
+      The SMART Health Cards Test Kit tests systems for their conformance to the
       [SMART Health Cards Framework v1.4.0](https://spec.smarthealth.cards/)
     )
     version VERSION
+    links [
+      {
+        label: 'Report Issue',
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/issues'
+      },
+      {
+        label: 'Open Source',
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit'
+      },
+      {
+        label: 'Download',
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/releases'
+      }
+    ]
 
     # All FHIR validation requsets will use this FHIR validator
     fhir_resource_validator do
