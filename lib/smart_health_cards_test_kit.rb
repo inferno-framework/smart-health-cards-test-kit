@@ -35,6 +35,10 @@ module SmartHealthCardsTestKit
       {
         label: 'Download',
         url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/releases'
+      },
+      {
+        label: 'SMART Health Cards Framework',
+        url: 'https://spec.smarthealth.cards/'
       }
     ]
 
