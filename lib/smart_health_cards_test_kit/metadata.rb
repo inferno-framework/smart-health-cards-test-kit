@@ -43,10 +43,10 @@ module SmartHealthCardsTestKit
     DESCRIPTION
     suite_ids [:smart_health_cards]
     tags ['SMART Health Cards']
-    last_updated '2025-01-03'
+    last_updated LAST_UPDATED
     version VERSION
     maturity 'Low'
-    authors 'inferno@groups.mitre.org'
+    authors ['Yunwei Wang']
     repo 'https://github.com/inferno-framework/smart-health-cards-test-kit'
   end
 end
