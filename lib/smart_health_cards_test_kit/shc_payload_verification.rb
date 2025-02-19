@@ -37,7 +37,6 @@ module SmartHealthCardsTestKit
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
-      decompressed_payload_array = []
       fhir_bundles = []
 
       credential_strings.split(',').each do |credential|
@@ -119,7 +118,7 @@ module SmartHealthCardsTestKit
           end
         end
       end
-      output fhir_bundles: decompressed_payload_array
+      output fhir_bundles: fhir_bundles
     end
   end
 end
