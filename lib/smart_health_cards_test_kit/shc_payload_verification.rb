@@ -33,7 +33,7 @@ module SmartHealthCardsTestKit
           (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
-    output :decompressed_payloads
+    output :fhir_bundles
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
@@ -117,7 +117,7 @@ module SmartHealthCardsTestKit
           end
         end
       end
-      output decompressed_payloads: decompressed_payload_array
+      output fhir_bundles: decompressed_payload_array
     end
   end
 end
