@@ -10,12 +10,10 @@ module SmartHealthCardsTestKit
     input :fhir_bundles
 
     run do
-      
-      #skip_if fhir_bundles.blank?, 'No FHIR bundles received'
-      jsonArray = JSON.parse(fhir_bundles)
-      jsonArray.each { |json| assert_valid_resource(resource: FHIR::Bundle.new(json)) }
-      #fhir_bundles.each { |bundle| assert_valid_resource(resource: bundle) }
 
+      #skip_if fhir_bundles.blank?, 'No FHIR bundles received'
+      hash_array = eval(fhir_bundles)
+      hash_array.each { |hash| assert_valid_resource(resource: FHIR::Bundle.new(hash)) }
     end
   end
 end
