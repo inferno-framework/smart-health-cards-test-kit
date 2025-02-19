@@ -29,6 +29,47 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
         sessionId: 'b8cf5547-1dc7-4714-a797-dc2347b93fe2'
       }
     end
+    let(:fhir_bundles) do
+      FHIR::Bundle.new(
+        type: 'collection',
+        entry: [
+          {
+            fullUrl: 'resource:0',
+            resource: {
+              name: [
+                {
+                  family: 'Rowe',
+                  given: ['Corrina']
+                }
+              ],
+              birthDate: '1971-12-06',
+              resourceType: 'Patient'
+            }
+          },
+          {
+            fullUrl: 'resource:1',
+            resource: {
+              status: 'completed',
+              vaccineCode: {
+                coding: [
+                  {
+                    system: 'http://hl7.org/fhir/sid/cvx',
+                    code: '207'
+                  }
+                ]
+              },
+              patient: {
+                reference: 'resource:0'
+              },
+              occurrenceDateTime: '2025-02-05',
+              lotNumber: '1234567',
+              resourceType: 'Immunization'
+            }
+          }
+        ],
+        resourceType: 'Bundle'
+      )
+    end
 
     before do
       stub_request(:post, "https://example.com/validatorapi/validate")
@@ -36,13 +77,12 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
     end
 
     it 'passes for a valid fhir bundle' do
-      
+
     end
 
     #TODO: update text with specific bundle type
     it 'passes if the JWS payload conforms to the FHIR Bundle profile' do
-      fhir_bundles = '[{"type":"collection", "entry":[{"fullUrl":"resource:0", "resource":{"name":[{"family":"Rowe", "given":["Corrina"]}], "birthDate":"1971-12-06", "resourceType":"Patient"}}, {"fullUrl":"resource:1", "resource":{"status":"completed", "vaccineCode":{"coding":[{"system":"http://hl7.org/fhir/sid/cvx", "code":"207"}]}, "patient":{"reference":"resource:0"}, "occurrenceDateTime":"2025-02-05", "lotNumber":"1234567", "resourceType":"Immunization"}}], "resourceType":"Bundle"}]'
-      result = run(test, { file_download_url: url, url: url, fhir_bundles: fhir_bundles})
+      result = run(test, { file_download_url: url, url: url, fhir_bundles: [ fhir_bundles.to_hash ]})
       expect(result.result).to eq('pass')
     end
 
