@@ -80,7 +80,7 @@ module SmartHealthCardsTestKit
         end
 
         bundle = FHIR::Bundle.new(raw_bundle)
-        fhir_bundles.append(raw_bundle)
+        fhir_bundles.append(bundle)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
         resources << bundle
@@ -119,7 +119,6 @@ module SmartHealthCardsTestKit
         end
       end
       scratch[:bundles] = fhir_bundles
-      output fhir_bundles: fhir_bundles
     end
   end
 end
