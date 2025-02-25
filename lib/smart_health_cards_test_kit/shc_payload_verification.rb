@@ -33,11 +33,11 @@ module SmartHealthCardsTestKit
           (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
-    output :decompressed_payloads
+    output :fhir_bundles
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
-      decompressed_payload_array = []
+      fhir_bundles = []
 
       credential_strings.split(',').each do |credential|
         jws = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential)
@@ -80,6 +80,7 @@ module SmartHealthCardsTestKit
         end
 
         bundle = FHIR::Bundle.new(raw_bundle)
+        fhir_bundles.append(bundle)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
         resources << bundle
@@ -117,7 +118,7 @@ module SmartHealthCardsTestKit
           end
         end
       end
-      output decompressed_payloads: decompressed_payload_array
+      scratch[:bundles] = fhir_bundles
     end
   end
 end
