@@ -115,8 +115,7 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
       )
     end
 
-    let(:test_scratch) { {}
-  }
+    let(:test_scratch) { {} }
 
     before do
       stub_request(:post, "https://example.com/validatorapi/validate")
