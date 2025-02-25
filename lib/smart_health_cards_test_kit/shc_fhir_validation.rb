@@ -7,13 +7,11 @@ module SmartHealthCardsTestKit
     description %(
       SMART Health Card payload SHALL be a valid FHIR Bundle resource
     )
-    input :fhir_bundles
 
     run do
-
-      #skip_if fhir_bundles.blank?, 'No FHIR bundles received'
-      hash_array = eval(fhir_bundles)
-      hash_array.each { |hash| assert_valid_resource(resource: FHIR::Bundle.new(hash)) }
+      fhir_bundles = scratch[:bundles]
+      skip_if fhir_bundles.blank?, 'No FHIR bundles received'
+      fhir_bundles.each { |bundle| assert_valid_resource(resource: bundle)}
     end
   end
 end

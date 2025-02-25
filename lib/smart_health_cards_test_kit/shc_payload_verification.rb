@@ -118,6 +118,7 @@ module SmartHealthCardsTestKit
           end
         end
       end
+      scratch[:bundles] = fhir_bundles
       output fhir_bundles: fhir_bundles
     end
   end
