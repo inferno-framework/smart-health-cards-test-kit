@@ -33,6 +33,7 @@ module SmartHealthCardsTestKit
           (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
+    output :fhir_bundles
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
@@ -79,7 +80,7 @@ module SmartHealthCardsTestKit
         end
 
         bundle = FHIR::Bundle.new(raw_bundle)
-        fhir_bundles.append(bundle)
+        fhir_bundles.append(bundle.to_hash)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
         resources << bundle
@@ -117,7 +118,8 @@ module SmartHealthCardsTestKit
           end
         end
       end
-      scratch[:bundles] = fhir_bundles
+
+      output fhir_bundles: fhir_bundles
     end
   end
 end

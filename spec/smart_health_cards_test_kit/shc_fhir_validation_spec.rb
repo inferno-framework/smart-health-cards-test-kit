@@ -115,34 +115,28 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
       )
     end
 
-    let(:test_scratch) { {} }
-
     before do
       stub_request(:post, "https://example.com/validatorapi/validate")
         .to_return(status: 200, body: operation_outcome_success.to_json)
-
-      allow_any_instance_of(test)
-        .to receive(:scratch).and_return(test_scratch)
-      end
+    end
 
     it 'passes if the input is an array with a single bundle conforms to the FHIR Bundle profile' do
-      test_scratch[:bundles] = [ fhir_bundle_corrina_rowe ]
-      result = run(test, { file_download_url: url, url: url})
+      fhir_bundles = [ fhir_bundle_corrina_rowe.to_hash ]
+      result = run(test, { file_download_url: url, url: url, fhir_bundles: fhir_bundles})
       expect(result.result).to eq('pass')
     end
 
     it 'passes if the input is an array of multiple bundles that all conform to the FHIR Bundle profile' do
-      test_scratch[:bundles] = [
-        fhir_bundle_corrina_rowe,
-        fhir_bundle_deanne_gleichner
+      fhir_bundles = [
+        fhir_bundle_corrina_rowe.to_hash,
+        fhir_bundle_deanne_gleichner.to_hash
       ]
-      result = run(test, { file_download_url: url, url: url})
+      result = run(test, { file_download_url: url, url: url, fhir_bundles: fhir_bundles})
       expect(result.result).to eq('pass')
     end
 
     it 'skips if the no FHIR bundles received' do
-      test_scratch[:bundles] = []
-      result = run(test, { file_download_url: url, url: url})
+      result = run(test, { file_download_url: url, url: url, fhir_bundles: []})
       expect(result.result).to eq('skip')
     end
 
