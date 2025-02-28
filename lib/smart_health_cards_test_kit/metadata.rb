@@ -21,9 +21,12 @@ module SmartHealthCardsTestKit
       These tests are intended to allow server implementers to perform checks of their server against SMART Health Cards Framework requrirements.
 
       The test kit currently tests the following requirements:
-      - Download and validate a health card via file download
-      - Download and validate a health card via FHIR $health-cards-issue operation
-      - Download and validate a health card via QR Code scanning
+      - Download and validate a health card [via File Download](https://spec.smarthealth.cards/#via-file-download)
+      - Download and validate a health card [via FHIR $health-cards-issue Operation](https://spec.smarthealth.cards/#via-fhir-health-cards-issue-operation)
+      - Download and validate a health card [via QR Code](https://spec.smarthealth.cards/#via-qr-print-or-scan)
+
+      The test kit does **NOT** test this requirement:
+      - Download and validate a health card [via Deep Link](https://spec.smarthealth.cards/#via-deep-link)
 
       See the test descriptions within the test kit for detail on the specific validations performed as part of testing these requirements.
 

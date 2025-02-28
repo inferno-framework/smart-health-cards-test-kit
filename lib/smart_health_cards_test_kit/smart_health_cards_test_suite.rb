@@ -19,25 +19,26 @@ module SmartHealthCardsTestKit
     id :smart_health_cards
     title 'SMART Health Cards'
     description %(
-      The US Core Test Kit tests systems for their conformance to the
+      The SMART Health Cards tests systems for their conformance to the
       [SMART Health Cards Framework v1.4.0](https://spec.smarthealth.cards/)
     )
 
     links [
       {
-        type: 'source_code',
-        label: 'Open Source',
-        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/'
-      },
-      {
-        type: 'report_issue',
         label: 'Report Issue',
-        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/issues/'
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/issues'
       },
       {
-        type: 'download',
+        label: 'Open Source',
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit'
+      },
+      {
         label: 'Download',
-        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/releases/'
+        url: 'https://github.com/inferno-framework/smart-health-cards-test-kit/releases'
+      },
+      {
+        label: 'SMART Health Cards Framework',
+        url: 'https://spec.smarthealth.cards/'
       }
     ]
 
