@@ -33,7 +33,6 @@ module SmartHealthCardsTestKit
           (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
-    output :fhir_bundles
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
