@@ -1,7 +1,17 @@
 # Inferno Smart Health Card Test Kit
 
 This is an [Inferno](https://inferno-framework.github.io/) test kit
-for the SMART Health Cards Framework [v1.4.0](https://spec.smarthealth.cards/)
+for the SMART Health Cards Framework [v1.4.0](https://spec.smarthealth.cards/).
+
+The test kit currently tests the following requirements:
+
+- Download and validate a health card via file download
+- Download and validate a health card via FHIR $health-cards-issue operation
+- Download and validate a health card via QR Code scanning
+
+It does **NOT** support this requirement:
+
+- Download and validate a health card via DeepLink
 
 ## Instructions
 
