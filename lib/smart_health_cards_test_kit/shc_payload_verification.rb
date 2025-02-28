@@ -17,20 +17,6 @@ module SmartHealthCardsTestKit
       represented by the registered JWT iss claim and the issuanceDate property is represented
       by the registered JWT nbf (“not before”) claim (encoded as the number of seconds from
       1970-01-01T00:00:00Z UTC, as specified by [RFC7519](https://tools.ietf.org/html/rfc7519))
-
-      For Health Cards that will be directly represented as QR codes, issuers SHALL ensure
-      that content is minified as follows:
-      * JWS payload `.vc.credentialSubject.fhirBundle` is created...
-        * without `Resource.id` elements
-        * without `Resource.meta` elements (or if present, `.meta.security` is included and
-          no other fields are included)
-        * without `DomainResource.text` elements
-        * without `CodeableConcept.text` elements
-        * without `Coding.display` elements
-        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs
-          (e.g., `{"fullUrl": "resource:0"}`)
-        * with `Reference.reference` populated with short `resource`-scheme URIs
-          (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
 
