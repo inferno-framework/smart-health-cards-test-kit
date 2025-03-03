@@ -35,7 +35,7 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
         entry: [
           {
             fullUrl: 'resource:0',
-            resource: {
+            resource: FHIR::Patient.new(
               name: [
                 {
                   family: 'Rowe',
@@ -44,11 +44,11 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
               ],
               birthDate: '1971-12-06',
               resourceType: 'Patient'
-            }
+            )
           },
           {
             fullUrl: 'resource:1',
-            resource: {
+            resource: FHIR::Immunization.new(
               status: 'completed',
               vaccineCode: {
                 coding: [
@@ -64,7 +64,7 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
               occurrenceDateTime: '2025-02-05',
               lotNumber: '1234567',
               resourceType: 'Immunization'
-            }
+            )
           }
         ],
         resourceType: 'Bundle'
@@ -77,7 +77,7 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
         entry: [
           {
             fullUrl: 'resource:0',
-            resource: {
+            resource: FHIR::Patient.new(
               name: [
                 {
                   family: 'Gleichner',
@@ -88,11 +88,11 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
               ],
               birthDate: '2007-04-11',
               resourceType: 'Patient'
-            }
+            )
           },
           {
             fullUrl: 'resource:1',
-            resource: {
+            resource: FHIR::Immunization.new(
               status: 'completed',
               vaccineCode: {
                 coding: [
@@ -108,7 +108,7 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
               occurrenceDateTime: '2025-02-04',
               lotNumber: '1234567',
               resourceType: 'Immunization'
-            }
+            )
           }
         ],
         resourceType: 'Bundle'
