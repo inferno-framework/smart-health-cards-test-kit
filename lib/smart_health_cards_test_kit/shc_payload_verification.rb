@@ -80,7 +80,7 @@ module SmartHealthCardsTestKit
         end
 
         bundle = FHIR::Bundle.new(raw_bundle)
-        fhir_bundles.append(raw_bundle)
+        fhir_bundles.append(bundle.to_json)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
         resources << bundle

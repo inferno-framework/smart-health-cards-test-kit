@@ -121,15 +121,15 @@ RSpec.describe SmartHealthCardsTestKit::SHCFHIRValidation do
     end
 
     it 'passes if the input is an array with a single bundle conforms to the FHIR Bundle profile' do
-      fhir_bundles = [ fhir_bundle_corrina_rowe.to_hash ]
+      fhir_bundles = [ fhir_bundle_corrina_rowe.to_json ]
       result = run(test, { file_download_url: url, url: url, fhir_bundles: fhir_bundles})
       expect(result.result).to eq('pass')
     end
 
     it 'passes if the input is an array of multiple bundles that all conform to the FHIR Bundle profile' do
       fhir_bundles = [
-        fhir_bundle_corrina_rowe.to_hash,
-        fhir_bundle_deanne_gleichner.to_hash
+        fhir_bundle_corrina_rowe.to_json,
+        fhir_bundle_deanne_gleichner.to_json
       ]
       result = run(test, { file_download_url: url, url: url, fhir_bundles: fhir_bundles})
       expect(result.result).to eq('pass')
