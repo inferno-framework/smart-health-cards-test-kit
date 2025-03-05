@@ -1,3 +1,6 @@
+# 0.10.1
+* Change to use fhir_bundles instead of credential_strings as input parameter for validation test
+
 # 0.10.0
 * **Inferno Core Update:** Bumped to version `0.6.4`.
 * **Ruby Version Update:** Upgraded Ruby to `3.3.6`.
