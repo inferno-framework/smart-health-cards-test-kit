@@ -11,10 +11,14 @@ module SmartHealthCardsTestKit
 
     run do
       skip_if fhir_bundles.blank?, 'No FHIR bundles received'
+
+      assert_valid_json(fhir_bundles)
       bundle_array = JSON.parse(fhir_bundles)
+
+      skip_if bundle_array.blank?, 'No FHIR bundles received'
+
       bundle_array.each do |bundle|
-        assert_valid_json(bundle)
-        assert_valid_resource(resource: FHIR.from_contents(bundle))
+        assert_valid_resource(resource: FHIR::Bundle.new(bundle))
       end
     end
   end

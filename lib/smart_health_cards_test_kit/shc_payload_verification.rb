@@ -79,8 +79,10 @@ module SmartHealthCardsTestKit
                 "The following Bundle entry urls do not use short resource-scheme URIs: #{bad_urls.join(', ')}"
         end
 
+        # Have to make another copy of bundle to avoid being modified by the following codes
+        fhir_bundles.append(FHIR::Bundle.new(raw_bundle))
+
         bundle = FHIR::Bundle.new(raw_bundle)
-        fhir_bundles.append(bundle.to_json)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
         resources << bundle
@@ -119,7 +121,7 @@ module SmartHealthCardsTestKit
         end
       end
 
-      output fhir_bundles: fhir_bundles
+      output fhir_bundles: fhir_bundles.to_json
     end
   end
 end
