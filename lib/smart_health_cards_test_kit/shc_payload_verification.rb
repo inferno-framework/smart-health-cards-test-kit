@@ -33,11 +33,11 @@ module SmartHealthCardsTestKit
           (e.g., `{"patient": {"reference": "resource:0"}}`)
     )
     input :credential_strings
-    output :decompressed_payloads
+    output :fhir_bundles
 
     run do
       skip_if credential_strings.blank?, 'No Verifiable Credentials received'
-      decompressed_payload_array = []
+      fhir_bundles = []
 
       credential_strings.split(',').each do |credential|
         jws = SmartHealthCardsTestKit::Utils::JWS.from_jws(credential)
@@ -79,6 +79,9 @@ module SmartHealthCardsTestKit
                 "The following Bundle entry urls do not use short resource-scheme URIs: #{bad_urls.join(', ')}"
         end
 
+        # Have to make another copy of bundle to avoid being modified by the following codes
+        fhir_bundles.append(FHIR::Bundle.new(raw_bundle))
+
         bundle = FHIR::Bundle.new(raw_bundle)
         resources = bundle.entry.map(&:resource)
         bundle.entry.each { |entry| entry.resource = nil }
@@ -117,7 +120,8 @@ module SmartHealthCardsTestKit
           end
         end
       end
-      output decompressed_payloads: decompressed_payload_array
+
+      output fhir_bundles: fhir_bundles.to_json
     end
   end
 end
