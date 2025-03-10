@@ -3,7 +3,7 @@ require_relative 'version'
 module SmartHealthCardsTestKit
   class Metadata < Inferno::TestKit
     id :smart_health_cards
-    title 'SMART Health Cards'
+    title 'SMART Health Cards Test Kit'
     description <<~DESCRIPTION
       The SMART Health Cards Test Kit provides an
       executable set of tests for the [SMART Health Cards Framework v1.4.0](https://spec.smarthealth.cards/).
