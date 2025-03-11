@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smart_health_cards_test_kit (0.10.1)
+    smart_health_cards_test_kit (0.10.2)
       inferno_core (>= 0.6.4)
       rqrcode
       rqrcode_core (>= 1.2.0)
