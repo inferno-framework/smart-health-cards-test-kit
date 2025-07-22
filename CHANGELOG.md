@@ -1,3 +1,7 @@
+# 0.11.0
+* FI-3815: Update Test Kit with new RSpec features by @Shaumik-Ashraf in https://github.com/inferno-framework/smart-health-cards-test-kit/pull/12
+* FI-4182 Remove inferno@groups.mitre.org email from gemspec by @arscan in https://github.com/inferno-framework/smart-health-cards-test-kit/pull/13
+
 # 0.10.1
 * Change to use fhir_bundles instead of credential_strings as input parameter for validation test
 
