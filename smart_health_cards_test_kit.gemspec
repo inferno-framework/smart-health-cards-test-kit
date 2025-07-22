@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Smart Health Cards test kit'
   spec.homepage      = 'https://github.com/inferno-framework/smart-health-cards-test-kit'
   spec.license       = 'Apache-2.0'
-  spec.add_runtime_dependency 'inferno_core', '>= 0.6.4'
+  spec.add_runtime_dependency 'inferno_core', '~> 1.0', '>= 1.0.2'
   spec.add_runtime_dependency 'rqrcode'
   spec.add_runtime_dependency 'rqrcode_core', '>= 1.2.0'
   spec.add_development_dependency 'database_cleaner-sequel', '~> 1.8'
