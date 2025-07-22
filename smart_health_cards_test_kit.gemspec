@@ -4,7 +4,6 @@ Gem::Specification.new do |spec|
   spec.name          = 'smart_health_cards_test_kit'
   spec.version       = SmartHealthCardsTestKit::VERSION
   spec.authors       = ['Yunwei Wang']
-  spec.email         = ['inferno@groups.mitre.org']
   spec.summary       = 'Smart Health Cards test kit'
   spec.description   = 'Smart Health Cards test kit'
   spec.homepage      = 'https://github.com/inferno-framework/smart-health-cards-test-kit'
